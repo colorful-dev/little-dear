@@ -6,12 +6,12 @@
  * TL;DR - This is where all the tRPC server stuff is created and plugged in. The pieces you will
  * need to use are documented accordingly near the end.
  */
-import { initTRPC } from "@trpc/server";
-import { type NextRequest } from "next/server";
+import {initTRPC} from "@trpc/server";
+import {type NextRequest} from "next/server";
 import superjson from "superjson";
-import { ZodError } from "zod";
+import {ZodError} from "zod";
 
-import { db } from "~/server/db";
+import {db} from "~/server/db";
 
 /**
  * 1. CONTEXT
@@ -22,7 +22,8 @@ import { db } from "~/server/db";
  */
 
 interface CreateContextOptions {
-  headers: Headers;
+    headers: Headers;
+    userId?: string;
 }
 
 /**
@@ -36,10 +37,11 @@ interface CreateContextOptions {
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
 export const createInnerTRPCContext = (opts: CreateContextOptions) => {
-  return {
-    headers: opts.headers,
-    db,
-  };
+    return {
+        headers: opts.headers,
+        db,
+        userId: opts.userId,
+    };
 };
 
 /**
@@ -48,12 +50,13 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (opts: { req: NextRequest }) => {
-  // Fetch stuff that depends on the request
+export const createTRPCContext = (opts: { req: NextRequest, userId?: string }) => {
+    // Fetch stuff that depends on the request
 
-  return createInnerTRPCContext({
-    headers: opts.req.headers,
-  });
+    return createInnerTRPCContext({
+        headers: opts.req.headers,
+        userId: opts.userId,
+    });
 };
 
 /**
@@ -65,17 +68,17 @@ export const createTRPCContext = (opts: { req: NextRequest }) => {
  */
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
-  transformer: superjson,
-  errorFormatter({ shape, error }) {
-    return {
-      ...shape,
-      data: {
-        ...shape.data,
-        zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : null,
-      },
-    };
-  },
+    transformer: superjson,
+    errorFormatter({shape, error}) {
+        return {
+            ...shape,
+            data: {
+                ...shape.data,
+                zodError:
+                    error.cause instanceof ZodError ? error.cause.flatten() : null,
+            },
+        };
+    },
 });
 
 /**
@@ -100,3 +103,18 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 export const publicProcedure = t.procedure;
+
+export const authorizedProcedure = publicProcedure.use(async opts => {
+    if (!opts.ctx.userId) {
+        throw new Error('请先登录')
+    }
+    const user = await opts.ctx.db.user.findUnique({
+        where: {
+            id: opts.ctx.userId
+        }
+    })
+    if (!user) {
+        throw new Error("用户不存在");
+    }
+    return opts.next()
+})
