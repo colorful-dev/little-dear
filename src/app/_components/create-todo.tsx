@@ -1,5 +1,6 @@
 "use client";
 
+import { Box, Button, FormControl, Input } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -17,26 +18,26 @@ export function CreateTodo() {
   });
 
   return (
-    <form
+    <FormControl
+      as="form"
       onSubmit={(e) => {
         e.preventDefault();
         createTodo.mutate({ name });
       }}
-      
+      width="fit-content"
     >
-      <input
-        type="text"
-        placeholder="Title"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        
-      />
-      <button
-        type="submit"
-        disabled={createTodo.isLoading}
-      >
-        {createTodo.isLoading ? "Submitting..." : "Submit"}
-      </button>
-    </form>
+      <Box display="flex">
+        <Input
+          type="text"
+          placeholder="Title"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          width={300}
+        />
+        <Button type="submit" disabled={createTodo.isLoading}>
+          {createTodo.isLoading ? "Submitting..." : "Submit"}
+        </Button>
+      </Box>
+    </FormControl>
   );
 }
