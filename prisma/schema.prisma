@@ -2,20 +2,43 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
+}
+
+generator zod {
+  provider = "zod-prisma-types"
+  output   = "../src/server/api/schema"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Todo {
-    id        Int      @id @default(autoincrement())
-    name      String
-    completed Boolean  @default(false)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  name      String
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-    @@index([name])
+  @@index([name])
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String
+  nickName  String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isDelete  Boolean  @default(false)
+  Record    Record[]
+}
+
+model Record {
+  id       Int    @id @default(autoincrement())
+  name     String
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
 }
