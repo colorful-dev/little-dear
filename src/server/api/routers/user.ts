@@ -41,7 +41,7 @@ export const userRouter = createTRPCRouter({
     if (!user) {
       throw new Error('用户不存在')
     }
-    if (await verifyPassword(user.password, input.password)) {
+    if (await verifyPassword(user.password, await hashPassword(input.password))) {
       throw new Error('密码错误')
     }
     return user.id
