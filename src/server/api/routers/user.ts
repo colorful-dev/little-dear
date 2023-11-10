@@ -31,6 +31,11 @@ export const userRouter = createTRPCRouter({
         isDelete: false
       }
     })
+    ctx.setCookie('userId', res.id, {
+      httpOnly: true,
+      path: '/',
+      maxAge: 60 * 60 * 24
+    })
     return res.id
   }),
   login: publicProcedure.input(LoginSchema).mutation(async ({ input, ctx }) => {
@@ -45,12 +50,11 @@ export const userRouter = createTRPCRouter({
     if (await verifyPassword(user.password, await hashPassword(input.password))) {
       throw new Error('密码错误')
     }
-    const cookieValue = serialize('userId', user.id, {
+    ctx.setCookie('userId', user.id, {
       httpOnly: true,
       path: '/',
       maxAge: 60 * 60 * 24
     })
-    ctx.headers.set('Set-Cookie', cookieValue)
     return user.id
   })
 })
