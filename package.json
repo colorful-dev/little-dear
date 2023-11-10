@@ -23,6 +23,7 @@
     "@trpc/next": "^10.37.1",
     "@trpc/react-query": "^10.37.1",
     "@trpc/server": "^10.37.1",
+    "argon2": "^0.31.2",
     "framer-motion": "^10.16.4",
     "next": "^14.0.0",
     "react": "18.2.0",
@@ -41,7 +42,6 @@
     "eslint-config-next": "^14.0.0",
     "prisma": "^5.1.1",
     "typescript": "^5.1.6",
-    "zod-prisma": "^0.5.4",
     "zod-prisma-types": "^3.1.0"
   },
   "ct3aMetadata": {

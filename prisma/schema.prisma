@@ -33,7 +33,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   isDelete  Boolean  @default(false)
-  Record    Record[]
+  record    Record[]
 }
 
 model Record {
