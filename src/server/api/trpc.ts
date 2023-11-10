@@ -2,7 +2,6 @@ import { initTRPC } from "@trpc/server";
 import { type NextRequest } from "next/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
-import cookie, { type CookieSerializeOptions } from 'cookie'
 
 import { db } from "~/server/db";
 
@@ -10,7 +9,7 @@ import { db } from "~/server/db";
 interface CreateContextOptions {
     headers: Headers;
     userId?: string;
-    resHeaders: Headers;
+    setCookie: (key: string, value: string) => void
 }
 
 export const createInnerTRPCContext = (opts: CreateContextOptions) => {
@@ -18,9 +17,7 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
         headers: opts.headers,
         db,
         userId: opts.userId,
-        setCookie: (key: string, value: string, options?: CookieSerializeOptions) => {
-            opts.resHeaders.append('Set-Cookie', cookie.serialize(key, value, options))
-        }
+        setCookie: opts.setCookie
     };
 };
 
@@ -28,7 +25,7 @@ export const createTRPCContext = (opts: { req: NextRequest } & Omit<CreateContex
     return createInnerTRPCContext({
         headers: opts.req.headers,
         userId: opts.userId,
-        resHeaders: opts.resHeaders
+        setCookie: opts.setCookie
     });
 };
 

@@ -1,4 +1,5 @@
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
+import { cookies } from "next/headers";
 import { type NextRequest } from "next/server";
 
 import { env } from "~/env.mjs";
@@ -6,12 +7,18 @@ import { appRouter } from "~/server/api/root";
 import { createTRPCContext } from "~/server/api/trpc";
 
 const handler = (req: NextRequest) => {
-    const userId = req.cookies.get("userId")?.value
+    const cookieStore = cookies()
+    const userId = cookieStore.get('userId')?.value
+    console.log('userId', userId)
     return fetchRequestHandler({
         endpoint: "/api/trpc",
         req,
         router: appRouter,
-        createContext: (opts) => createTRPCContext({ req, userId, resHeaders: opts.resHeaders }),
+        createContext: () => createTRPCContext({
+            req, userId, setCookie: (key: string, value: string) => {
+                cookieStore.set(key, value)
+            }
+        }),
         onError:
             env.NODE_ENV === "development"
                 ? ({ path, error }) => {
