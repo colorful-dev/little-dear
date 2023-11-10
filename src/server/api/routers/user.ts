@@ -4,11 +4,11 @@ import { z } from "zod";
 import argon2 from 'argon2';
 
 const RegisterSchema = UserSchema.pick({ username: true, password: true }).merge(z.object({
-  confirmPassWord: z.string().min(6),
+  confirmPassword: z.string().min(6),
   password: z.string().min(6)
-})).refine(data => data.password === data.confirmPassWord, {
+})).refine(data => data.password === data.confirmPassword, {
   message: '两次密码不一致',
-  path: ['confirmPassWord']
+  path: ['confirmPassword']
 })
 
 const LoginSchema = UserSchema.pick({ username: true, password: true })
