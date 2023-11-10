@@ -19,13 +19,13 @@ async function CrudShowcase() {
   const todos = await api.todo.list.query();
 
   return (
-      <Box display="flex" flexDirection="column" alignItems="center">
-        <UnorderedList marginX="10" marginY="5" width={300}>
-          {
-            todos.map(todo => <ListItem key={todo.id}>{todo.name}</ListItem>)
-          }
-        </UnorderedList> 
-        <CreateTodo />
-      </Box>
+    <Box display="flex" flexDirection="column" alignItems="center">
+      <UnorderedList marginX="10" marginY="5" width={300}>
+        {
+          todos.map(todo => <ListItem key={todo.id}>{todo.name}</ListItem>)
+        }
+      </UnorderedList> 
+      <CreateTodo />
+    </Box>
   );
 }
