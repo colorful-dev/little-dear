@@ -86,7 +86,7 @@ export const TodoSelectSchema: z.ZodType<Prisma.TodoSelect> = z.object({
 //------------------------------------------------------
 
 export const UserIncludeSchema: z.ZodType<Prisma.UserInclude> = z.object({
-  Record: z.union([z.boolean(),z.lazy(() => RecordFindManyArgsSchema)]).optional(),
+  record: z.union([z.boolean(),z.lazy(() => RecordFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => UserCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
@@ -100,7 +100,7 @@ export const UserCountOutputTypeArgsSchema: z.ZodType<Prisma.UserCountOutputType
 }).strict();
 
 export const UserCountOutputTypeSelectSchema: z.ZodType<Prisma.UserCountOutputTypeSelect> = z.object({
-  Record: z.boolean().optional(),
+  record: z.boolean().optional(),
 }).strict();
 
 export const UserSelectSchema: z.ZodType<Prisma.UserSelect> = z.object({
@@ -111,7 +111,7 @@ export const UserSelectSchema: z.ZodType<Prisma.UserSelect> = z.object({
   createdAt: z.boolean().optional(),
   updatedAt: z.boolean().optional(),
   isDelete: z.boolean().optional(),
-  Record: z.union([z.boolean(),z.lazy(() => RecordFindManyArgsSchema)]).optional(),
+  record: z.union([z.boolean(),z.lazy(() => RecordFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => UserCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
@@ -207,7 +207,7 @@ export const UserWhereInputSchema: z.ZodType<Prisma.UserWhereInput> = z.object({
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   isDelete: z.union([ z.lazy(() => BoolFilterSchema),z.boolean() ]).optional(),
-  Record: z.lazy(() => RecordListRelationFilterSchema).optional()
+  record: z.lazy(() => RecordListRelationFilterSchema).optional()
 }).strict();
 
 export const UserOrderByWithRelationInputSchema: z.ZodType<Prisma.UserOrderByWithRelationInput> = z.object({
@@ -218,7 +218,7 @@ export const UserOrderByWithRelationInputSchema: z.ZodType<Prisma.UserOrderByWit
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
   isDelete: z.lazy(() => SortOrderSchema).optional(),
-  Record: z.lazy(() => RecordOrderByRelationAggregateInputSchema).optional()
+  record: z.lazy(() => RecordOrderByRelationAggregateInputSchema).optional()
 }).strict();
 
 export const UserWhereUniqueInputSchema: z.ZodType<Prisma.UserWhereUniqueInput> = z.union([
@@ -244,7 +244,7 @@ export const UserWhereUniqueInputSchema: z.ZodType<Prisma.UserWhereUniqueInput> 
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   isDelete: z.union([ z.lazy(() => BoolFilterSchema),z.boolean() ]).optional(),
-  Record: z.lazy(() => RecordListRelationFilterSchema).optional()
+  record: z.lazy(() => RecordListRelationFilterSchema).optional()
 }).strict());
 
 export const UserOrderByWithAggregationInputSchema: z.ZodType<Prisma.UserOrderByWithAggregationInput> = z.object({
@@ -384,7 +384,7 @@ export const UserCreateInputSchema: z.ZodType<Prisma.UserCreateInput> = z.object
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   isDelete: z.boolean().optional(),
-  Record: z.lazy(() => RecordCreateNestedManyWithoutAuthorInputSchema).optional()
+  record: z.lazy(() => RecordCreateNestedManyWithoutAuthorInputSchema).optional()
 }).strict();
 
 export const UserUncheckedCreateInputSchema: z.ZodType<Prisma.UserUncheckedCreateInput> = z.object({
@@ -395,7 +395,7 @@ export const UserUncheckedCreateInputSchema: z.ZodType<Prisma.UserUncheckedCreat
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   isDelete: z.boolean().optional(),
-  Record: z.lazy(() => RecordUncheckedCreateNestedManyWithoutAuthorInputSchema).optional()
+  record: z.lazy(() => RecordUncheckedCreateNestedManyWithoutAuthorInputSchema).optional()
 }).strict();
 
 export const UserUpdateInputSchema: z.ZodType<Prisma.UserUpdateInput> = z.object({
@@ -406,7 +406,7 @@ export const UserUpdateInputSchema: z.ZodType<Prisma.UserUpdateInput> = z.object
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   isDelete: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
-  Record: z.lazy(() => RecordUpdateManyWithoutAuthorNestedInputSchema).optional()
+  record: z.lazy(() => RecordUpdateManyWithoutAuthorNestedInputSchema).optional()
 }).strict();
 
 export const UserUncheckedUpdateInputSchema: z.ZodType<Prisma.UserUncheckedUpdateInput> = z.object({
@@ -417,7 +417,7 @@ export const UserUncheckedUpdateInputSchema: z.ZodType<Prisma.UserUncheckedUpdat
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   isDelete: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
-  Record: z.lazy(() => RecordUncheckedUpdateManyWithoutAuthorNestedInputSchema).optional()
+  record: z.lazy(() => RecordUncheckedUpdateManyWithoutAuthorNestedInputSchema).optional()
 }).strict();
 
 export const UserCreateManyInputSchema: z.ZodType<Prisma.UserCreateManyInput> = z.object({
