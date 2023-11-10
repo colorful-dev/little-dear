@@ -7,6 +7,7 @@ cd little-dear
 pnpm install
 cp .env.example .env
 ## 然后编辑.env 文件 修改username 和password
+docker-compose up -d
 pnpm dev
 ```
 
