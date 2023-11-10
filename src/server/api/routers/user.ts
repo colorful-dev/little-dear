@@ -2,6 +2,7 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 import { UserSchema } from "~/server/api/schema";
 import { z } from "zod";
 import argon2 from 'argon2';
+import { serialize } from 'cookie';
 
 const RegisterSchema = UserSchema.pick({ username: true, password: true }).merge(z.object({
   confirmPassword: z.string().min(6),
@@ -44,6 +45,12 @@ export const userRouter = createTRPCRouter({
     if (await verifyPassword(user.password, await hashPassword(input.password))) {
       throw new Error('密码错误')
     }
+    const cookieValue = serialize('userId', user.id, {
+      httpOnly: true,
+      path: '/',
+      maxAge: 60 * 60 * 24
+    })
+    ctx.headers.set('Set-Cookie', cookieValue)
     return user.id
   })
 })

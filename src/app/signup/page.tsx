@@ -1,20 +1,35 @@
 "use client";
 
-import { Box, Button, FormControl, Input } from "@chakra-ui/react";
+import { Box, Button, FormControl, Input, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import PswInput from '../_components/PswInput';
+import { api } from "~/trpc/react";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
-  const [email, setEmail] = useState('') 
-  const [pswFirst, setPswFirst] = useState('')
-  const [pswSecond, setPswSecond] = useState('')
+  const [username, setUsername] = useState('') 
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [isPwdInvalid, setIsPwdInvalid] = useState(false)
-
-  const handleSignUp = () => {
-    if (isPwdInvalid)
-      return
-    console.log(email, pswFirst, pswSecond);
-  }
+  const router = useRouter()
+  const toast = useToast()
+  const handleSignUp = api.user.register.useMutation({
+    onSuccess() {
+      toast({
+        title: 'Sign up successful',
+        status: 'success',
+        position: 'top'
+      })
+      router.replace('/')
+    },
+    onError(err) {
+      toast({
+        title: err.message,
+        status: 'error',
+        position: 'top'
+      })
+    }
+  }) 
 
   return (
     <Box display="flex" flexDirection="column" padding="4" height="100vh" justifyContent="flex-end">
@@ -22,18 +37,24 @@ export default function Page() {
         as="form"
         onSubmit={(e) => {
           e.preventDefault();
-          handleSignUp()
+          if (isPwdInvalid)
+            return
+          handleSignUp.mutate({
+            username,
+            password,
+            confirmPassword
+          })
         }}
         height={64}
         display={"flex"}
         flexDirection={"column"}
         isRequired
       >
-        <Input value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" marginY={2}></Input>
+        <Input value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" marginY={2}></Input>
         <PswInput 
           inputPorps={{
-            onChange: e => setPswFirst(e.target.value),
-            value: pswFirst,
+            onChange: e => setPassword(e.target.value),
+            value: password,
             placeholder: 'Password',
             minLength: 6
           }} 
@@ -43,8 +64,8 @@ export default function Page() {
         ></PswInput>
         <PswInput
           inputPorps={{
-            onChange: e => (setPswSecond(e.target.value), setIsPwdInvalid(pswFirst !== e.target.value)),
-            value: pswSecond,
+            onChange: e => (setConfirmPassword(e.target.value), setIsPwdInvalid(password !== e.target.value)),
+            value: confirmPassword,
             placeholder: 'Password again',
             isInvalid: isPwdInvalid,
             minLength: 6
