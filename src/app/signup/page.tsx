@@ -99,7 +99,7 @@ export default function SignUpPage() {
             w="300px"
             mt={4}
           >
-            Login
+            Register
           </Button>
         </VStack>
       </form>

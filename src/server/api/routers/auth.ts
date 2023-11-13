@@ -14,13 +14,15 @@ export const authRoute = createTRPCRouter({
       if (user.length > 0) {
         throw new Error("当前手机号已被注册");
       }
-      return ctx.db
+      const res = await ctx.db
         .insert(users)
         .values({
           phone: input.phone,
           password: await hashPassword(input.password),
         })
         .returning({ userId: users.id });
+      ctx.setCookie("userId", res);
+      return res;
     }),
   login: publicProcedure.input(loginSchema).mutation(async ({ ctx, input }) => {
     const user = await ctx.db
@@ -32,6 +34,7 @@ export const authRoute = createTRPCRouter({
       user.length > 0 &&
       (await verifyPassword(user[0]!.password, input.password))
     ) {
+      ctx.setCookie("userId", user[0]?.id);
       return {
         userId: user[0]!.id,
       };
