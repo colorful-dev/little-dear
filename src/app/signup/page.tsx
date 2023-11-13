@@ -13,7 +13,7 @@ import {
 import { useForm } from "react-hook-form";
 import React from "react";
 import { api } from "~/trpc/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 type FormValues = {
   phone: string;
@@ -32,13 +32,13 @@ export default function SignUpPage() {
   const toast = useToast();
 
   const { isLoading, mutateAsync } = api.auth.register.useMutation({
-    async onSuccess() {
+    onSuccess() {
       toast({
         title: "Sign up successful",
         status: "success",
         position: "top",
       });
-      await router.replace("/");
+      router.replace("/");
     },
     onError(err) {
       toast({

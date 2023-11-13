@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import React from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 
 type FormValues = {
@@ -41,7 +41,7 @@ export default function LoginPage() {
         status: "success",
         position: "top",
       });
-      await router.replace("/");
+      router.replace("/");
       return;
     }
     toast({
