@@ -21,7 +21,7 @@ export const authRoute = createTRPCRouter({
           password: await hashPassword(input.password),
         })
         .returning({ userId: users.id });
-      ctx.setCookie("userId", res);
+      ctx.setCookie("userId", res[0]!.userId);
       return res;
     }),
   login: publicProcedure.input(loginSchema).mutation(async ({ ctx, input }) => {
@@ -34,7 +34,7 @@ export const authRoute = createTRPCRouter({
       user.length > 0 &&
       (await verifyPassword(user[0]!.password, input.password))
     ) {
-      ctx.setCookie("userId", user[0]?.id);
+      ctx.setCookie("userId", user[0]!.id);
       return {
         userId: user[0]!.id,
       };
