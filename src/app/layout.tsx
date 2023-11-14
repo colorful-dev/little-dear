@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import { Box, Flex } from "@chakra-ui/react";
+import { BottomBar } from "./_component/BottomBar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,9 +26,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
-        <TRPCReactProvider cookies={cookies().toString()}>
-          {children}
-        </TRPCReactProvider>
+        <Flex w="100vw" h="100vh" flexDirection={"column"}>
+          <Box flex={1}>
+            <TRPCReactProvider cookies={cookies().toString()}>
+              {children}
+            </TRPCReactProvider>
+          </Box>
+          <BottomBar />
+        </Flex>
       </body>
     </html>
   );
