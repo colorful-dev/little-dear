@@ -25,7 +25,7 @@ todo
 ## 技术栈文档
 
 - [Next.js](https://nextjs.org)
-- [Prisma](https://prisma.io)
+- [drizzle](https://orm.drizzle.team/)
 - [tRPC](https://trpc.io)
 - [t3-stack](https://create.t3.gg/)
 - [chakra-ui](https://chakra-ui.com/docs/components/text/usage)
