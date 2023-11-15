@@ -11,7 +11,7 @@ const activePaths = {
   home: "/",
   statistics: "/statistics",
   add: "/add",
-  calc: "/calc",
+  budget: "/budget",
   setting: "/setting",
 };
 
@@ -74,9 +74,9 @@ export function BottomBar() {
       <Center>
         <IconButton
           aria-label="calc"
-          color={isActive("calc") ? "blue" : undefined}
+          color={isActive("budget") ? "blue" : undefined}
           icon={<MdOutlineCalculate style={{ fontSize: "26px" }} />}
-          onClick={() => goToPath("calc")}
+          onClick={() => goToPath("budget")}
         />
       </Center>
       <Center>
