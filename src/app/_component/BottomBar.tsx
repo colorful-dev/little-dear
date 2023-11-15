@@ -15,32 +15,22 @@ const activePaths = {
   setting: "/setting",
 };
 
+const reversePaths = Object.fromEntries(
+  Object.entries(activePaths).map(([key, value]) => [value, key]),
+);
+
 const noLayoutRoutes = ["/login", "/signup"];
 
 export function BottomBar() {
   const router = useRouter();
   const pathName = usePathname();
   const activeKey = React.useMemo(() => {
-    console.log("pathName", pathName);
-    const values = Object.values(activePaths);
-    const result = values.filter((path) => {
-      if (pathName !== "/" && path !== "/") {
-        return pathName.startsWith(path);
-      }
-      return path === pathName;
-    });
-    if (result.length > 0) {
-      let index = 0;
-      values.forEach((item, i) => {
-        if (item === result[0]) {
-          index = i;
-        }
-      });
-      return Object.keys(activePaths)[index];
+    const key = Object.keys(reversePaths).filter((item) => item === pathName);
+    if (key.length === 1) {
+      return reversePaths[key[0] as keyof typeof reversePaths];
     }
     return null;
   }, [pathName]);
-  console.log(activeKey);
 
   const isActive = (key: keyof typeof activePaths) => key === activeKey;
   const goToPath = (key: keyof typeof activePaths) =>
