@@ -9,6 +9,7 @@
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
+    "prepare": "pnpm theme",
     "theme": "chakra-cli tokens ./src/trpc/theme.ts",
     "theme:watch": "chakra-cli tokens ./src/trpc/theme.ts --watch"
   },
