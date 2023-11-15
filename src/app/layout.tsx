@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, ChakraProvider, Flex, theme } from "@chakra-ui/react";
 import { BottomBar } from "./_component/BottomBar";
 
 const inter = Inter({
