@@ -15,24 +15,15 @@ import React from "react";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-
-const schema = z.object({
-  phone: z.string().length(11, { message: 'invalid phone number'}),
-  password: z.string().min(6, 'Minimum 6 digits').max(16, 'Maximum 16 digits'),
-  confirmPassword: z.string()
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Comfirm passwords don't match",
-  path: ['confirmPassword']
-})
+import { insertUserSchema } from "~/server/db/schema";
 
 export default function SignUpPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<typeof schema._type>({
-    resolver: zodResolver(schema)
+  } = useForm<typeof insertUserSchema._type>({
+    resolver: zodResolver(insertUserSchema)
   });
 
   const router = useRouter();

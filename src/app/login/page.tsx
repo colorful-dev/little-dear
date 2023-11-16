@@ -15,20 +15,15 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-
-const schema = z.object({
-  phone: z.string().length(11, { message: 'invalid phone number'}),
-  password: z.string().min(6, 'Minimum 6 digits').max(16, 'Maximum 16 digits')
-})
+import { loginSchema } from "~/server/db/schema";
 
 export default function LoginPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<typeof schema._type>({
-    resolver: zodResolver(schema)
+  } = useForm<typeof loginSchema._type>({
+    resolver: zodResolver(loginSchema)
   });
 
   const router = useRouter();
