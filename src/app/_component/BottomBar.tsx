@@ -1,24 +1,10 @@
 "use client";
 
-import {
-  IoHome,
-  IoAddOutline,
-  IoSettingsOutline,
-  IoAdd,
-} from "react-icons/io5";
-import { FaChartPie } from "react-icons/fa";
-import { MdOutlineCalculate } from "react-icons/md";
-import {
-  Center,
-  Flex,
-  IconButton,
-  ChakraProvider,
-  Icon,
-  Box,
-} from "@chakra-ui/react";
+import { Center, Flex, ChakraProvider } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { theme } from "../../trpc/theme";
+import { Icon } from "@iconify/react";
 
 const activePaths = {
   home: "/",
@@ -68,35 +54,35 @@ export function BottomBar() {
           onClick={() => goToPath("home")}
           color={isActive("home") ? "primary.500" : undefined}
         >
-          <Icon as={IoHome as never} />
+          <Icon icon="ant-design:home-outlined" />
         </Center>
         <Center
           fontSize={"3xl"}
           onClick={() => goToPath("statistics")}
           color={isActive("statistics") ? "primary.500" : undefined}
         >
-          <Icon as={FaChartPie as never} />
+          <Icon icon="tabler:chart-line" />
         </Center>
         <Center
           fontSize={"3xl"}
           onClick={() => goToPath("add")}
           color={isActive("add") ? "primary.500" : undefined}
         >
-          <Icon as={IoAddOutline as never} />
+          <Icon icon="fluent:add-12-filled" />
         </Center>
         <Center
           fontSize={"3xl"}
           onClick={() => goToPath("calc")}
           color={isActive("calc") ? "primary.500" : undefined}
         >
-          <Icon as={MdOutlineCalculate as never} />
+          <Icon icon="iconamoon:calculator-light" />
         </Center>
         <Center
           fontSize={"3xl"}
           onClick={() => goToPath("setting")}
           color={isActive("setting") ? "primary.500" : undefined}
         >
-          <Icon as={IoSettingsOutline as never} />
+          <Icon icon="uil:setting" />
         </Center>
       </Flex>
     </ChakraProvider>
