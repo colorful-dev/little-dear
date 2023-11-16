@@ -14,19 +14,17 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
-
-type FormValues = {
-  phone: string;
-  password: string;
-  confirmPassword: string;
-};
+import { zodResolver } from '@hookform/resolvers/zod';
+import { insertUserSchema } from "~/server/db/schema";
 
 export default function SignUpPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<typeof insertUserSchema._type>({
+    resolver: zodResolver(insertUserSchema)
+  });
 
   const router = useRouter();
   const toast = useToast();
