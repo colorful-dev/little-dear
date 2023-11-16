@@ -34,6 +34,6 @@ export const insertUserSchema = loginSchema.merge(
     confirmPassword: z.string(),
   })
 ).refine((data) => data.password === data.confirmPassword, {
-  message: "comfirm password didn't match the ",
-  path: ["password"],
+  message: "comfirm password didn't match the password",
+  path: ["confirmPassword"],
 });
