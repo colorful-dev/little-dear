@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-import { theme } from "../../trpc/theme";
+import { theme } from "../../config";
 
 const activePaths = {
   home: "/",

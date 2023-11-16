@@ -10,8 +10,8 @@
     "lint": "next lint",
     "start": "next start",
     "prepare": "pnpm theme",
-    "theme": "chakra-cli tokens ./src/trpc/theme.ts",
-    "theme:watch": "chakra-cli tokens ./src/trpc/theme.ts --watch"
+    "theme": "chakra-cli tokens ./src/config/index.ts",
+    "theme:watch": "chakra-cli tokens ./src/config/index.ts --watch"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
