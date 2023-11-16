@@ -14,18 +14,22 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 
-type FormValues = {
-  phone: string;
-  password: string;
-};
+const schema = z.object({
+  phone: z.string().length(11, { message: 'invalid phone number'}),
+  password: z.string().min(6, 'Minimum 6 digits').max(16, 'Maximum 16 digits')
+})
 
 export default function LoginPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<typeof schema._type>({
+    resolver: zodResolver(schema)
+  });
 
   const router = useRouter();
   const toast = useToast();
