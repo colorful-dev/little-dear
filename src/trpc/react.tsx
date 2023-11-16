@@ -8,6 +8,7 @@ import { useState } from "react";
 import { type AppRouter } from "~/server/api/root";
 import { getUrl, transformer } from "./shared";
 import { ChakraProvider } from "@chakra-ui/react";
+import { theme } from "./theme";
 
 export const api = createTRPCReact<AppRouter>();
 
@@ -36,7 +37,7 @@ export function TRPCReactProvider(props: {
   return (
     <QueryClientProvider client={queryClient}>
       <api.Provider client={trpcClient} queryClient={queryClient}>
-        <ChakraProvider>{props.children}</ChakraProvider>
+        <ChakraProvider theme={theme}>{props.children}</ChakraProvider>
       </api.Provider>
     </QueryClientProvider>
   );

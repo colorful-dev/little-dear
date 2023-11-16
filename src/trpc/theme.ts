@@ -1,0 +1,16 @@
+import { extendTheme } from "@chakra-ui/react";
+import { createPaletteFromColor } from "palettey";
+
+function generateColor(key: string, color: string) {
+  const res = createPaletteFromColor(key, color, {});
+  return res[key];
+}
+
+const themeConfig = {
+  colors: {
+    primary: generateColor("primary", "#6A5FF5"),
+    danger: generateColor("danger", "#EE786C"),
+  },
+};
+
+export const theme = extendTheme(themeConfig);
