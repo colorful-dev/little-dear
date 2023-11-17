@@ -43,10 +43,10 @@ export const DateItem = ({children, income, expense, date}: PropsWithChildren<{
   )
 }
 
-export const BillItem = ({icon, label, value, category, type}: {
-  label: string,
-  value: string,
+export const BillItem = ({icon, category, value, account, type}: {
   category: string,
+  value: string,
+  account: string,
   icon: string | IconifyIcon,
   type: BillType
 }) => {
@@ -56,8 +56,8 @@ export const BillItem = ({icon, label, value, category, type}: {
         <Icon icon={icon} />
       </Center>
       <Stack flex={1} spacing={.5}>
-        <Text fontSize={'small'} fontWeight={'bold'}>{label}</Text>
-        <Text color={'gray.300'} fontSize={'x-small'}>{category}</Text>
+        <Text fontSize={'small'} fontWeight={'bold'}>{category}</Text>
+        <Text color={'gray.300'} fontSize={'x-small'}>{account}</Text>
       </Stack>    
       <Center color={`${billTypeColorMap[type]}.400`}>¥ {value}</Center>
     </HStack>
