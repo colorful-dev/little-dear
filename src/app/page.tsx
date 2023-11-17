@@ -1,9 +1,8 @@
 "use client";
 
-import { Box, Button, Center, Flex, Heading, Icon, Stack, Text, HStack } from "@chakra-ui/react";
-import { FiCalendar, FiSearch, FiChevronDown, FiCoffee } from "react-icons/fi";
-import { GiMoneyStack } from "react-icons/gi";
-import type { IconType } from 'react-icons';
+import { Box, Button, Center, Flex, Heading, Stack, Text, HStack } from "@chakra-ui/react";
+import { Icon } from "@iconify/react";
+import type { IconifyIcon } from "@iconify/react";
 
 export enum BillType {
   INCOME,
@@ -50,13 +49,13 @@ const BillItem = ({icon, label, value, category, type}: {
   label: string,
   value: string,
   category: string,
-  icon: IconType,
+  icon: string | IconifyIcon,
   type: BillType
 }) => {
   return (
     <HStack alignItems={'center'} spacing={4}>
       <Center rounded={6} bgColor={`${billTypeColorMap[type]}.50`} w={8} h={8} color={`${billTypeColorMap[type]}.400`}>
-        <Icon as={icon} />
+        <Icon icon={icon} />
       </Center>
       <Stack flex={1} spacing={.5}>
         <Text fontSize={'small'} fontWeight={'bold'}>{label}</Text>
@@ -72,11 +71,11 @@ export default function Home() {
     <Stack spacing={4} align={'stretch'} w="100vw" p={'4'}>
       <Flex h={10} alignItems={'center'} justifyContent={'space-between'} >
         <Button colorScheme='gray' size='xs'>
-          Button <Icon as={FiChevronDown as never} />
+          Button <Icon icon="carbon:chevron-down" />
         </Button>
-        <Center w={12} justifyContent={'space-around'} color={'primary.600'}>
-          <Icon as={FiCalendar as never} />
-          <Icon as={FiSearch as never} />
+        <Center w={12} fontSize={20} justifyContent={'space-around'} color={'primary.600'}>
+          <Icon icon="carbon:calendar" />
+          <Icon icon="carbon:search" />
         </Center>
       </Flex>
       <Heading as='h4' size='md'>
@@ -86,8 +85,8 @@ export default function Home() {
       <Box h={40} bg="primary.500" rounded={14}></Box>
       <Bill>
         <DateItem>
-          <BillItem icon={FiCoffee as never} label="零食" value="2,333.00" category="微信钱包" type={BillType.EXPENSES}></BillItem>
-          <BillItem icon={GiMoneyStack as never} label="工资" value="3,000.00" category="支付宝" type={BillType.INCOME}></BillItem>
+          <BillItem icon="ph:coffee-light" label="零食" value="2,333.00" category="微信钱包" type={BillType.EXPENSES}></BillItem>
+          <BillItem icon="icon-park-outline:income" label="工资" value="3,000.00" category="支付宝" type={BillType.INCOME}></BillItem>
         </DateItem>
       </Bill>
     </Stack>
