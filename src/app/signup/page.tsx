@@ -16,13 +16,14 @@ import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { insertUserSchema } from "~/server/db/schema";
+import type { z } from "zod";
 
 export default function SignUpPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<typeof insertUserSchema._type>({
+  } = useForm<z.infer<typeof insertUserSchema>>({
     resolver: zodResolver(insertUserSchema)
   });
 

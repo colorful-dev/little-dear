@@ -16,13 +16,14 @@ import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from "~/server/db/schema";
+import type { z } from "zod";
 
 export default function LoginPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<typeof loginSchema._type>({
+  } = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema)
   });
 
