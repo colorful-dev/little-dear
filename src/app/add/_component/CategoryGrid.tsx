@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import IconItem from "../_component/IconItem"
+import IconItem from "../../_component/IconItem"
 import { Grid, GridItem } from '@chakra-ui/react'
 import { Icon } from '@iconify/react';
 
