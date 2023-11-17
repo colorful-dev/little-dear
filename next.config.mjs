@@ -6,6 +6,13 @@ await import("./src/env.mjs");
 
 /** @type {import("next").NextConfig} */
 const config = {
+  redirects() {
+    return Promise.resolve([{
+      source: '/',
+      destination: '/home',
+      permanent: true
+    }])
+  }
 };
 
 export default config;
