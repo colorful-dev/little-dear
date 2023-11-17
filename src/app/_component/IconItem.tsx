@@ -1,7 +1,6 @@
 import React from 'react'
-import { IconButton, type IconButtonProps, Box, Text, Icon } from '@chakra-ui/react'
-import { CiCircleMore } from "react-icons/ci"
-import { type IconType } from 'react-icons'
+import { IconButton, type IconButtonProps, Box, Text } from '@chakra-ui/react'
+import { Icon } from '@iconify/react';
 
 interface IconItemProps extends IconButtonProps {
     hasLabel?: boolean;
@@ -11,11 +10,11 @@ interface IconItemProps extends IconButtonProps {
 const IconItem: React.FC<IconItemProps> = ({ hasLabel, hasDetail, ...props }) => {
     return (
         <Box display="inline-flex" flexDirection="column" alignItems="center">
-            <Box position="relative">
+            <Box position="relative" fontSize={"xs"} color="gray.700">
                 <IconButton {...props} />
-                {hasDetail ? <Icon position="absolute" bottom={-1} right={-1} boxSize="0.8em" as={CiCircleMore as IconType} /> : null}
+                {hasDetail ? <Icon className="absolute -bottom-1 -right-1" icon="mingcute:more-3-fill" /> : null}
             </Box>
-            {hasLabel ? <Text fontSize='sm'>{props['aria-label']}</Text> : null}
+            {hasLabel ? <Text fontSize="sm">{props['aria-label']}</Text> : null}
         </Box>
     )
 }

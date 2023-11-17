@@ -2,32 +2,25 @@
 
 import { useState } from 'react'
 import IconItem from "../_component/IconItem"
-import { Icon, Grid, GridItem, Box } from '@chakra-ui/react'
-import * as Icons from "react-icons/fa"
-import { type IconType } from 'react-icons'
+import { Grid, GridItem } from '@chakra-ui/react'
+import { Icon } from '@iconify/react';
 
 export interface IconInfo {
-    id: string | number,
+    categoryId: string | number,
     label: string;
     icon: string;
+    children?: IconInfo[];
 }
 
 export interface CategoryGridProps {
     icons: IconInfo[],
     defaultValue?: string | number;
+    normalVariant?: string;
+    activeVariant?: string;
     onChange?: (value: string | number, item?: IconInfo) => void;
 }
 
-const CategoryGridItem: React.FC<{ label: string; icon: IconType | undefined; isActive: boolean; }> = ({ label, icon, isActive }) => {
-    const variant = isActive ? 'danger' : 'normal'
-    return (
-        <GridItem display="flex" flexDirection="column">
-            <IconItem hasLabel={true} aria-label={label} variant={variant} icon={<Icon as={icon} />} />
-        </GridItem>
-    )
-}
-
-const CategoryGrid: React.FC<CategoryGridProps> = ({ icons, defaultValue = '', onChange }) => {
+const CategoryGrid: React.FC<CategoryGridProps> = ({ icons, defaultValue = '', onChange, normalVariant = 'normal', activeVariant = 'danger' }) => {
     const [value, setValue] = useState(defaultValue)
 
     const handleItemClick = (value: string | number, item: IconInfo) => {
@@ -39,11 +32,13 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ icons, defaultValue = '', o
         <Grid templateColumns="repeat(5, 1fr)" rowGap={4}>
             {
                 icons.map((item, index) => {
-                    const IconComponent = (Icons as Record<string, IconType>)[item.icon]
+                    const isActive = value === item.categoryId
+                    const variant = isActive ? activeVariant : normalVariant
+                    const hasDetail = Array.isArray(item.children) && !!item.children.length
                     return (
-                        <Box key={index} onClick={() => handleItemClick(item.id, item)}>
-                            <CategoryGridItem label={item.label} icon={IconComponent} isActive={value === item.id} />
-                        </Box>
+                        <GridItem key={index} display="flex" flexDirection="column" onClick={() => handleItemClick(item.categoryId, item)}>
+                            <IconItem hasLabel={true} aria-label={item.label} variant={variant} icon={<Icon className="text-xl" icon={item.icon} />} hasDetail={hasDetail} />
+                        </GridItem>
                     )
                 })
             }
