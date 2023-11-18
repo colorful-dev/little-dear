@@ -3,7 +3,7 @@
 import { Center, Flex, ChakraProvider } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-import { theme } from "../../trpc/theme";
+import { theme } from "../../config";
 import { Icon } from "@iconify/react";
 
 const activePaths = {

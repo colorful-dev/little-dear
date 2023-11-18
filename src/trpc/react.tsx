@@ -8,7 +8,7 @@ import { useState } from "react";
 import { type AppRouter } from "~/server/api/root";
 import { getUrl, transformer } from "./shared";
 import { ChakraProvider } from "@chakra-ui/react";
-import { theme } from "./theme";
+import { theme } from "../config";
 
 export const api = createTRPCReact<AppRouter>();
 
