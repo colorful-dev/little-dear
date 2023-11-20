@@ -1,11 +1,10 @@
 "use client";
 
-import { IoHome, IoAddOutline, IoSettingsOutline } from "react-icons/io5";
-import { FaChartPie } from "react-icons/fa";
-import { MdOutlineCalculate } from "react-icons/md";
-import { Center, Flex, IconButton } from "@chakra-ui/react";
+import { Center, Flex, ChakraProvider } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
+import { theme } from "../../config";
+import { Icon } from "@iconify/react";
 
 const activePaths = {
   home: "/",
@@ -32,61 +31,60 @@ export function BottomBar() {
     return null;
   }, [pathName]);
 
+  console.log("pathName", pathName);
+  console.log("activeKey", activeKey);
   const isActive = (key: keyof typeof activePaths) => key === activeKey;
   const goToPath = (key: keyof typeof activePaths) =>
     router.push(activePaths[key]);
   if (noLayoutRoutes.includes(pathName)) return null;
 
   return (
-    <Flex
-      w="100vw"
-      h="80px"
-      color="gray"
-      bg="white"
-      px={"36px"}
-      justify={"space-between"}
-      boxShadow={"0px 0px 1px 0px gray"}
-    >
-      <Center>
-        <IconButton
-          aria-label="home"
-          color={isActive("home") ? "blue" : undefined}
-          icon={<IoHome style={{ fontSize: "26px" }} />}
+    <ChakraProvider theme={theme}>
+      <Flex
+        w="100vw"
+        h="80px"
+        color="gray"
+        bg="white"
+        px={"36px"}
+        justify={"space-between"}
+        boxShadow={"0px 0px 1px 0px gray"}
+      >
+        <Center
+          fontSize={"3xl"}
           onClick={() => goToPath("home")}
-        />
-      </Center>
-      <Center>
-        <IconButton
-          aria-label="statistics"
-          color={isActive("statistics") ? "blue" : undefined}
-          icon={<FaChartPie style={{ fontSize: "24px" }} />}
+          color={isActive("home") ? "primary.500" : undefined}
+        >
+          <Icon icon="ant-design:home-outlined" />
+        </Center>
+        <Center
+          fontSize={"3xl"}
           onClick={() => goToPath("statistics")}
-        />
-      </Center>
-      <Center>
-        <IconButton
-          aria-label="add"
-          color={isActive("add") ? "blue" : undefined}
-          icon={<IoAddOutline style={{ fontSize: "30px" }} />}
+          color={isActive("statistics") ? "primary.500" : undefined}
+        >
+          <Icon icon="tabler:chart-line" />
+        </Center>
+        <Center
+          fontSize={"3xl"}
           onClick={() => goToPath("add")}
-        />
-      </Center>
-      <Center>
-        <IconButton
-          aria-label="calc"
-          color={isActive("budget") ? "blue" : undefined}
-          icon={<MdOutlineCalculate style={{ fontSize: "26px" }} />}
+          color={isActive("add") ? "primary.500" : undefined}
+        >
+          <Icon icon="fluent:add-12-filled" />
+        </Center>
+        <Center
+          fontSize={"3xl"}
           onClick={() => goToPath("budget")}
-        />
-      </Center>
-      <Center>
-        <IconButton
-          aria-label="setting"
-          color={isActive("setting") ? "blue" : undefined}
-          icon={<IoSettingsOutline style={{ fontSize: "24px" }} />}
+          color={isActive("budget") ? "primary.500" : undefined}
+        >
+          <Icon icon="iconamoon:calculator-light" />
+        </Center>
+        <Center
+          fontSize={"3xl"}
           onClick={() => goToPath("setting")}
-        />
-      </Center>
-    </Flex>
+          color={isActive("setting") ? "primary.500" : undefined}
+        >
+          <Icon icon="uil:setting" />
+        </Center>
+      </Flex>
+    </ChakraProvider>
   );
 }

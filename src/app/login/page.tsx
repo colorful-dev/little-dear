@@ -14,18 +14,18 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
-
-type FormValues = {
-  phone: string;
-  password: string;
-};
+import { zodResolver } from '@hookform/resolvers/zod';
+import { loginSchema } from "~/server/db/schema";
+import type { z } from "zod";
 
 export default function LoginPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema)
+  });
 
   const router = useRouter();
   const toast = useToast();
