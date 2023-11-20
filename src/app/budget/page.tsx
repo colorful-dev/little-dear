@@ -7,6 +7,9 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Input,
+  InputGroup,
+  InputLeftAddon,
+  InputLeftElement,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { NumberInput } from "@/_component/NumberInput";
@@ -33,7 +36,24 @@ export default function Page() {
           <DrawerHeader alignSelf="center">设置月预算额度</DrawerHeader>
           <DrawerBody>
             <div className="mb-[20px]">
-              <Input placeholder="输入预算额度" value={number} size="lg" />
+              <InputGroup>
+                <InputLeftElement
+                  height="full"
+                  justifyContent="right"
+                  width={8}
+                >
+                  ¥
+                </InputLeftElement>
+                <Input
+                  placeholder="输入预算额度"
+                  value={number}
+                  size="lg"
+                  variant="filled"
+                  prefix="¥"
+                  focusBorderColor="primary.500"
+                  paddingLeft={10}
+                />
+              </InputGroup>
             </div>
             <NumberInput
               value={number}

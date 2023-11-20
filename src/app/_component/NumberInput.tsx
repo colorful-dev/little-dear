@@ -5,6 +5,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { withDefaultProps } from "../_util";
+import { Icon } from "@iconify/react";
 
 const range = (start: number, end: number) => {
   const length = end - start + 1;
@@ -21,7 +22,7 @@ function GridItem({
       {...props}
       w="100%"
       h={autoH ? "auto" : 20}
-      className={`s-fcc active:text-gray-500 ${props.className}`}
+      className={`s-fcc active:opacity-75 ${props.className}`}
     >
       {children}
     </GridItemRaw>
@@ -81,7 +82,10 @@ export const NumberInput = withDefaultProps(
         <Grid templateRows="1fr 1fr 2fr" className="flex-[1]">
           {/* operations */}
           <GridItem onClick={() => onChange(operationMap.remove(value))}>
-            R
+            <Icon
+              icon="material-symbols:backspace-rounded"
+              className="text-3xl"
+            />
           </GridItem>
           <GridItem>+</GridItem>
           <GridItem autoH className={confirmButtonClass}>

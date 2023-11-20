@@ -11,11 +11,12 @@ const themeConfig = {
   colors: {
     primary: generateColor("primary", "#6A5FF5"),
     danger: generateColor("danger", "#EE786C"),
-    gray: generateColor('gray', '#e0e5e7')
+    gray: generateColor("gray", "#e0e5e7"),
   },
   components: {
-    Button: iconButtonTheme
-  }
+    Button: iconButtonTheme,
+  },
 };
 
 export const theme = extendTheme(themeConfig);
+export const tailwindTheme = themeConfig.colors;
