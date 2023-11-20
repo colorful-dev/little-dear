@@ -1,46 +1,37 @@
 {
   "compilerOptions": {
-    /* Base Options: */
-    "esModuleInterop": true,
-    "skipLibCheck": true,
+    "incremental": true,
     "target": "es2022",
-    "allowJs": true,
-    "resolveJsonModule": true,
+
+    "jsx": "preserve",
+    /* Bundled projects */
+    "lib": ["dom", "dom.iterable", "ES2022"],
     "moduleDetection": "force",
-    "isolatedModules": true,
+
+    /* Path Aliases */
+    "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+    "resolveJsonModule": true,
+    "allowJs": true,
+
+    "checkJs": true,
     /* Strictness */
     "strict": true,
     "noUncheckedIndexedAccess": true,
-    "checkJs": true,
-    /* Bundled projects */
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "ES2022"
-    ],
     "noEmit": true,
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "jsx": "preserve",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "incremental": true,
-    /* Path Aliases */
-    "baseUrl": ".",
-    "paths": {
-      "~/*": [
-        "./src/*"
-      ],
-      "@/*": [
-        "./src/app/*"
-      ],
-    }
+    /* Base Options: */
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "plugins": [{ "name": "next" }]
   },
   "include": [
-    ".eslintrc.cjs",
+    // ".eslintrc-2.cjs",
+    "./eslint.config.js",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
