@@ -18,6 +18,10 @@ export default function Page() {
 
   const [number, setNumber] = useState(0)
 
+  function confirm(_value: number) {
+    toggleDrawerVisible(false)
+  }
+
   return (
     <>
       <button onClick={() => toggleDrawerVisible(true)}>
@@ -53,6 +57,7 @@ export default function Page() {
                   prefix="¥"
                   focusBorderColor="primary.500"
                   paddingLeft={10}
+                  readOnly
                 />
               </InputGroup>
             </div>
@@ -60,6 +65,7 @@ export default function Page() {
               value={number}
               onChange={setNumber}
               confirmButtonClass="text-primary-500"
+              onConfirm={() => confirm(number)}
             />
           </DrawerBody>
         </DrawerContent>

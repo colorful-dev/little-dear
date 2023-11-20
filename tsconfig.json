@@ -13,7 +13,8 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
+      "@/*": ["./src/app/*"]
     },
     "resolveJsonModule": true,
     "allowJs": true,

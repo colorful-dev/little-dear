@@ -38,9 +38,14 @@ export interface NumberInputProps {
    * @default ''
    */
   confirmButtonClass?: string
+  /**
+   * @default '完成'
+   */
+  confirmText?: string
 
   value: number
   onChange: (value: number) => void
+  onConfirm?: () => void
 }
 
 /**
@@ -52,9 +57,10 @@ const operationMap = {
   remove: (v: number) => Math.floor(v / 10),
 }
 
+// TODO: 运算支持，现在有 + - . 三个按钮, 但是没有实现运算
 export const NumberInput = withDefaultProps(
   (props: NumberInputProps) => {
-    const { background, confirmButtonClass, onChange, value } = props
+    const { background, confirmButtonClass, onChange, value, confirmText, onConfirm } = props
 
     return (
       <div className="flex">
@@ -88,8 +94,8 @@ export const NumberInput = withDefaultProps(
             />
           </GridItem>
           <GridItem>+</GridItem>
-          <GridItem autoH className={confirmButtonClass}>
-            完成
+          <GridItem autoH className={confirmButtonClass} onClick={onConfirm}>
+            { confirmText }
           </GridItem>
         </Grid>
       </div>
@@ -97,5 +103,6 @@ export const NumberInput = withDefaultProps(
   },
   {
     background: 'transparent',
+    confirmText: '完成',
   },
 )
