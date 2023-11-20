@@ -2,15 +2,15 @@ import {
   Grid,
   type GridItemProps,
   GridItem as GridItemRaw,
-} from "@chakra-ui/react";
-import React from "react";
-import { withDefaultProps } from "../_util";
-import { Icon } from "@iconify/react";
+} from '@chakra-ui/react'
+import React from 'react'
+import { Icon } from '@iconify/react'
+import { withDefaultProps } from '../_util'
 
-const range = (start: number, end: number) => {
-  const length = end - start + 1;
-  return Array.from({ length }, (_, i) => start + i);
-};
+function range(start: number, end: number) {
+  const length = end - start + 1
+  return Array.from({ length }, (_, i) => start + i)
+}
 
 function GridItem({
   children,
@@ -21,26 +21,26 @@ function GridItem({
     <GridItemRaw
       {...props}
       w="100%"
-      h={autoH ? "auto" : 20}
+      h={autoH ? 'auto' : 20}
       className={`s-fcc active:opacity-75 ${props.className}`}
     >
       {children}
     </GridItemRaw>
-  );
+  )
 }
 
 export interface NumberInputProps {
   /**
    * @default 'transparent'
    */
-  background?: string;
+  background?: string
   /**
    * @default ''
    */
-  confirmButtonClass?: string;
+  confirmButtonClass?: string
 
-  value: number;
-  onChange: (value: number) => void;
+  value: number
+  onChange: (value: number) => void
 }
 
 /**
@@ -50,11 +50,11 @@ export interface NumberInputProps {
 const operationMap = {
   append: (v: number, v2: number) => v * 10 + v2,
   remove: (v: number) => Math.floor(v / 10),
-};
+}
 
 export const NumberInput = withDefaultProps(
   (props: NumberInputProps) => {
-    const { background, confirmButtonClass, onChange, value } = props;
+    const { background, confirmButtonClass, onChange, value } = props
 
     return (
       <div className="flex">
@@ -64,7 +64,7 @@ export const NumberInput = withDefaultProps(
           background={background}
         >
           {/* 1 ~ 9 */}
-          {range(1, 9).map((n) => (
+          {range(1, 9).map(n => (
             <GridItem
               onClick={() => onChange(operationMap.append(value, n))}
               key={n}
@@ -93,9 +93,9 @@ export const NumberInput = withDefaultProps(
           </GridItem>
         </Grid>
       </div>
-    );
+    )
   },
   {
-    background: "transparent",
+    background: 'transparent',
   },
-);
+)

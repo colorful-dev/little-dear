@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   Drawer,
@@ -8,25 +8,26 @@ import {
   DrawerOverlay,
   Input,
   InputGroup,
-  InputLeftAddon,
   InputLeftElement,
-} from "@chakra-ui/react";
-import { useState } from "react";
-import { NumberInput } from "@/_component/NumberInput";
+} from '@chakra-ui/react'
+import { useState } from 'react'
+import { NumberInput } from '@/_component/NumberInput'
 
 export default function Page() {
-  const [drawerVisible, toggleDrawerVisible] = useState(true);
+  const [drawerVisible, toggleDrawerVisible] = useState(true)
 
-  const [number, setNumber] = useState(0);
+  const [number, setNumber] = useState(0)
 
   return (
     <>
       <button onClick={() => toggleDrawerVisible(true)}>
-        click to add budget number: {number}
+        click to add budget number:
+        {' '}
+        {number}
       </button>
       <Drawer
         onClose={() => {
-          toggleDrawerVisible(false);
+          toggleDrawerVisible(false)
         }}
         placement="bottom"
         isOpen={drawerVisible}
@@ -64,5 +65,5 @@ export default function Page() {
         </DrawerContent>
       </Drawer>
     </>
-  );
+  )
 }
