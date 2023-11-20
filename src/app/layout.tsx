@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import { Box, ChakraProvider, Flex, theme } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { BottomBar } from "./_component/BottomBar";
 
 const inter = Inter({
@@ -25,9 +25,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
+      <body className={`font-sans ${inter.variable} safe-area-view`}>
         <Flex w="100vw" h="100vh" flexDirection={"column"}>
-          <Box flex={1} overflow={'hidden'}>
+          <Box flex={1} overflow="scroll">
             <TRPCReactProvider cookies={cookies().toString()}>
               {children}
             </TRPCReactProvider>
