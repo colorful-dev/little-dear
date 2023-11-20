@@ -19,3 +19,4 @@ const themeConfig = {
 }
 
 export const theme = extendTheme(themeConfig)
+export const tailwindTheme = themeConfig.colors

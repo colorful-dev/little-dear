@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* shortcuts */
+.s-fcc {
+    @apply flex justify-center items-center;
+}
+
 :root {
     --safe-area-inset-top: env(safe-area-inset-top);
     --safe-area-inset-right: env(safe-area-inset-right);

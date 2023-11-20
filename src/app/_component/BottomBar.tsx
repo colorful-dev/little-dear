@@ -10,7 +10,7 @@ const activePaths = {
   home: '/',
   statistics: '/statistics',
   add: '/add',
-  calc: '/calc',
+  budget: '/budget',
   setting: '/setting',
 }
 
@@ -73,8 +73,8 @@ export function BottomBar() {
         </Center>
         <Center
           fontSize="3xl"
-          onClick={() => goToPath('calc')}
-          color={isActive('calc') ? 'primary.500' : undefined}
+          onClick={() => goToPath('budget')}
+          color={isActive('budget') ? 'primary.500' : undefined}
         >
           <Icon icon="iconamoon:calculator-light" />
         </Center>
