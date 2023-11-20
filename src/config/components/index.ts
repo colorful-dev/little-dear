@@ -1,5 +1,5 @@
-import { iconButtonTheme } from "./IconButton"
+import { iconButtonTheme } from './IconButton'
 
 export {
-    iconButtonTheme
+  iconButtonTheme,
 }

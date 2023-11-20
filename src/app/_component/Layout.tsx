@@ -1,9 +1,9 @@
-import { Box, Heading, VStack } from "@chakra-ui/react";
-import type { ReactNode, PropsWithChildren } from "react";
+import { Box, Heading, VStack } from '@chakra-ui/react'
+import type { PropsWithChildren, ReactNode } from 'react'
 
 export interface HomeLayoutProps extends PropsWithChildren {
-  header?: ReactNode;
-  name: string;
+  header?: ReactNode
+  name: string
 }
 
 export function HomeLayout({ header, name, children }: HomeLayoutProps) {
@@ -19,14 +19,15 @@ export function HomeLayout({ header, name, children }: HomeLayoutProps) {
             rounded={14}
             w={6}
             h={1}
-            backgroundColor={"pink.300"}
+            backgroundColor="pink.300"
             marginTop={2}
-          ></Box>
+          >
+          </Box>
         </Heading>
         <Box marginTop={2} w="full">
           {children}
         </Box>
       </VStack>
     </VStack>
-  );
+  )
 }
