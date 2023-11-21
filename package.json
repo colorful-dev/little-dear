@@ -1,15 +1,17 @@
 {
   "name": "little-dear-drizzle",
+  "type": "module",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@8.10.2",
   "scripts": {
     "build": "next build",
     "db:push": "dotenv drizzle-kit push:pg",
     "db:studio": "dotenv drizzle-kit studio",
     "dev": "next dev",
-    "lint": "next lint",
+    "lint": "eslint .",
     "start": "next start",
-    "prepare": "pnpm theme",
+    "prepare": "simple-git-hooks && pnpm theme",
     "theme": "chakra-cli tokens ./src/config/index.ts",
     "theme:watch": "chakra-cli tokens ./src/config/index.ts --watch"
   },
@@ -42,27 +44,36 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^2.0.0",
     "@chakra-ui/cli": "^2.4.1",
+    "@next/eslint-plugin-next": "^14.0.3",
     "@types/eslint": "^8.44.2",
     "@types/node": "^18.16.0",
     "@types/pg": "^8.10.9",
     "@types/react": "^18.2.33",
     "@types/react-dom": "^18.2.14",
-    "@typescript-eslint/eslint-plugin": "^6.3.0",
-    "@typescript-eslint/parser": "^6.3.0",
     "autoprefixer": "^10.4.14",
     "dotenv-cli": "^7.3.0",
     "drizzle-kit": "^0.19.13",
     "eslint": "^8.47.0",
-    "eslint-config-next": "^14.0.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-tailwindcss": "^3.13.0",
+    "lint-staged": "^15.1.0",
     "postcss": "^8.4.27",
-    "prettier": "^3.0.0",
-    "prettier-plugin-tailwindcss": "^0.5.1",
+    "simple-git-hooks": "^2.9.0",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6"
   },
   "ct3aMetadata": {
     "initVersion": "7.23.2"
   },
-  "packageManager": "pnpm@8.10.2"
+  "simple-git-hooks": {
+    "pre-commit": "pnpm exec lint-staged"
+  },
+  "lint-staged": {
+    "*": [
+      "eslint --fix"
+    ]
+  }
 }
