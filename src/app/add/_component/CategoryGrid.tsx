@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useState } from 'react'
+import React, { type RefObject, useRef, useState } from 'react'
 import { Grid, GridItem } from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
 import IconItem from '../../_component/IconItem'
@@ -23,12 +23,17 @@ export interface CategoryGridProps {
 
 const CategoryGrid: React.FC<CategoryGridProps> = ({ icons, defaultValue = '', onChange, normalVariant = 'normal', activeVariant = 'danger' }) => {
   const [value, setValue] = useState(defaultValue)
-  const categoryRef = useRef<SubCategoryListRefProps>(null)
+  const categoryRefs = useRef<Array<RefObject<SubCategoryListRefProps>>>([])
 
-  const handleItemClick = (value: string | number, item: IconInfo) => {
+  if (categoryRefs.current.length !== icons.length) {
+    // If the length of the ref array does not match the length of the icons array, reset the ref array
+    categoryRefs.current = Array.from({ length: icons.length }, () => React.createRef<SubCategoryListRefProps>())
+  }
+
+  const handleItemClick = (value: string | number, item: IconInfo, index: number) => {
     setValue(value)
     onChange && onChange(value, item)
-    item?.children?.length && categoryRef.current?.open()
+    item?.children?.length && categoryRefs.current[index]?.current?.open()
   }
 
   return (
@@ -40,10 +45,10 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ icons, defaultValue = '', o
           const hasDetail = Array.isArray(item.children) && !!item.children.length
           return (
             <React.Fragment key={index}>
-              <GridItem display="flex" flexDirection="column" onClick={() => handleItemClick(item.categoryId, item)}>
+              <GridItem display="flex" flexDirection="column" onClick={() => handleItemClick(item.categoryId, item, index)}>
                 <IconItem hasLabel={true} aria-label={item.label} variant={variant} icon={<Icon className="text-xl" icon={item.icon} />} hasDetail={hasDetail} />
               </GridItem>
-              <SubCategoryList ref={categoryRef} list={item?.children || []} />
+              <SubCategoryList ref={categoryRefs.current[index]} list={item?.children || []} />
             </React.Fragment>
           )
         })
