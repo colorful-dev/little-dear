@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { TRPCClientError, httpBatchLink, loggerLink } from '@trpc/client'
 import { createTRPCReact } from '@trpc/react-query'
 import { useMemo, useState } from 'react'
-import { ChakraProvider, createStandaloneToast } from '@chakra-ui/react'
+import { ChakraProvider, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { theme } from '../config'
 import { getUrl, transformer } from './shared'
@@ -17,8 +17,6 @@ export interface ErrorBody {
   message: string
 }
 
-const { toast } = createStandaloneToast()
-
 export function TRPCReactProvider(props: {
   children: React.ReactNode
   cookies: string
@@ -27,6 +25,8 @@ export function TRPCReactProvider(props: {
   function redirectToLogin() {
     router.push('/login')
   }
+
+  const toast = useToast()
 
   function resolveFailure(failureCount: number, err: unknown) {
     if (err instanceof TRPCClientError) {
