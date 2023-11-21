@@ -3,6 +3,8 @@ import type { NextRequest } from 'next/server'
 import superjson from 'superjson'
 import { ZodError } from 'zod'
 
+import { eq } from 'drizzle-orm'
+import { selectUserSchema, users } from '../db/schema'
 import { db } from '~/server/db'
 
 interface CreateContextOptions {
@@ -49,9 +51,15 @@ export const createTRPCRouter = t.router
 
 export const publicProcedure = t.procedure
 
-export const authProcedure = publicProcedure.use((opts) => {
-  if (opts.ctx.userId)
-    return opts.next()
+export const authProcedure = publicProcedure.use(async (opts) => {
+  const userId = opts.ctx.userId
+  const isUserIdValid = selectUserSchema.pick({ id: true }).safeParse({ id: userId }).success
+
+  if (isUserIdValid) {
+    const result = await opts.ctx.db.select().from(users).where(eq(users.id, userId!))
+    if (result.length)
+      return opts.next()
+  }
 
   throw new TRPCError({
     code: 'UNAUTHORIZED',
