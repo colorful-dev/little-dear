@@ -12,6 +12,11 @@ import type { AppRouter } from '~/server/api/root'
 
 export const api = createTRPCReact<AppRouter>()
 
+export interface ErrorBody {
+  code: number
+  message: string
+}
+
 export function TRPCReactProvider(props: {
   children: React.ReactNode
   cookies: string
