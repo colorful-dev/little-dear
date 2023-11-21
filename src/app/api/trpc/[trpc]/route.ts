@@ -29,14 +29,6 @@ function handler(req: NextRequest) {
             console.error(
             `❌ tRPC failed on ${path ?? '<no-path>'}: ${error.message}`,
             )
-            if (error.code === 'UNAUTHORIZED') {
-              return {
-                statusCode: 401,
-                data: {
-                  message: error.message,
-                },
-              }
-            }
           }
         : undefined,
   })
