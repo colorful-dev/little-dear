@@ -28,26 +28,35 @@ export function TRPCReactProvider(props: {
     router.push('/login')
   }
 
+  function resolveFailure(failureCount: number, err: unknown) {
+    if (err instanceof TRPCClientError) {
+      // TODO: more robust error handling
+      if (err) {
+        toast({
+          title: err.message,
+          description: err.message,
+          status: 'error',
+          duration: 3000,
+        })
+        if (err.data.httpStatus === 401) {
+          redirectToLogin()
+          return false
+        }
+      }
+    }
+    return failureCount < 3
+  }
+
   const queryClient = useMemo(() => new QueryClient({
     defaultOptions: {
       queries: {
         retry(failureCount, err) {
-          if (err instanceof TRPCClientError) {
-            // TODO: more robust error handling
-            if (err) {
-              toast({
-                title: err.message,
-                description: err.message,
-                status: 'error',
-                duration: 3000,
-              })
-              if (err.data.httpStatus === 401) {
-                redirectToLogin()
-                return false
-              }
-            }
-          }
-          return failureCount < 3
+          return resolveFailure(failureCount, err)
+        },
+      },
+      mutations: {
+        retry(failureCount, err) {
+          return resolveFailure(failureCount, err)
         },
       },
     },
