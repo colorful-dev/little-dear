@@ -4,6 +4,7 @@ import { Box, Button, Center, Flex } from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
 import { HomeLayout } from '../_component/Layout'
 import { Bill, BillItem, BillType, DateItem } from './_component/Bill'
+import { useDBSeeding } from './_hooks/useSeed'
 
 type DailyBill = {
   date: string
@@ -28,6 +29,8 @@ const category2IconMap = {
 }
 
 export default function Home() {
+  useDBSeeding()
+
   const mockData: DailyBill[] = [
     {
       date: '2023-11-01',

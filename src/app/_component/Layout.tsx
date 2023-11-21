@@ -8,7 +8,7 @@ export interface HomeLayoutProps extends PropsWithChildren {
 
 export function HomeLayout({ header, name, children }: HomeLayoutProps) {
   return (
-    <VStack px={4} spacing={2} justifyContent="safe left" flexShrink={1}>
+    <VStack px={4} spacing={2} justifyContent="safe left" flexShrink={1} pb={4}>
       <Box h={10} w="full" display="flex" alignItems="center">
         {header}
       </Box>
