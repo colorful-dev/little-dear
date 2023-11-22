@@ -7,6 +7,7 @@ import IconItem from '../../_component/IconItem'
 import SubCategoryList, { type SubCategoryListRefProps } from './SubCategoryList'
 
 export interface IconInfo {
+  parentId: string | number
   categoryId: string | number
   label: string
   icon: string
@@ -21,8 +22,39 @@ export interface CategoryGridProps {
   onChange?: (value: string | number, item?: IconInfo) => void
 }
 
+function findParentIndexById(arr: IconInfo[], id: string | number, parentIndex: number | null = null): number | null {
+  for (let i = 0; i < arr.length; i++) {
+    const currentItem = arr[i]
+
+    if (currentItem?.categoryId === id)
+      return parentIndex
+    if (currentItem?.children) {
+      const foundIndex = findParentIndexById(currentItem.children, id, i)
+      if (foundIndex !== null)
+        return foundIndex
+    }
+  }
+  return null
+}
+
+function findItemById(arr: IconInfo[], id: string | number): IconInfo | null {
+  for (const item of arr) {
+    if (item.categoryId === id)
+      return item
+
+    if (item.children) {
+      const foundItem = findItemById(item.children, id)
+      if (foundItem)
+        return foundItem
+    }
+  }
+
+  return null
+}
+
 const CategoryGrid: React.FC<CategoryGridProps> = ({ icons, defaultValue = '', onChange, normalVariant = 'normal', activeVariant = 'danger' }) => {
-  const [value, setValue] = useState(defaultValue)
+  const [parentIndex, setParentIndex] = useState<number | null>(() => findParentIndexById(icons, defaultValue))
+  const [value, setValue] = useState<IconInfo | null>(() => findItemById(icons, defaultValue))
   const categoryRefs = useRef<Array<RefObject<SubCategoryListRefProps>>>([])
 
   if (categoryRefs.current.length !== icons.length) {
@@ -30,25 +62,36 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ icons, defaultValue = '', o
     categoryRefs.current = Array.from({ length: icons.length }, () => React.createRef<SubCategoryListRefProps>())
   }
 
-  const handleItemClick = (value: string | number, item: IconInfo, index: number) => {
-    setValue(value)
-    onChange && onChange(value, item)
-    item?.children?.length && categoryRefs.current[index]?.current?.open()
+  const currentItemList = (item: IconInfo) => [item, ...(item?.children ?? [])]
+
+  const handleItemClick = (item: IconInfo, index: number, shouldUpdate: boolean) => {
+    setParentIndex(index)
+    if (index !== parentIndex || shouldUpdate)
+      setValue(item)
+    item?.children?.length ? categoryRefs.current[index]?.current?.open() : (onChange && onChange(item.categoryId, item))
+  }
+
+  const handleSubItemClick = (item: IconInfo, index: number) => {
+    handleItemClick(item, index, true)
+    categoryRefs.current[index]?.current?.close()
   }
 
   return (
     <Grid templateColumns="repeat(5, 1fr)" rowGap={4}>
       {
         icons.map((item, index) => {
-          const isActive = value === item.categoryId
+          const isActive = parentIndex === index
+          const currentItem = isActive && value ? value : item
           const variant = isActive ? activeVariant : normalVariant
-          const hasDetail = Array.isArray(item.children) && !!item.children.length
+          const hasDetail = !!item?.children?.length
+          const label = hasDetail && currentItem?.parentId ? `${item.label}-${currentItem.label}` : currentItem.label
+
           return (
             <React.Fragment key={index}>
-              <GridItem display="flex" flexDirection="column" onClick={() => handleItemClick(item.categoryId, item, index)}>
-                <IconItem hasLabel={true} aria-label={item.label} variant={variant} icon={<Icon className="text-xl" icon={item.icon} />} hasDetail={hasDetail} />
+              <GridItem display="flex" flexDirection="column" onClick={() => handleItemClick(item, index, !hasDetail)}>
+                <IconItem hasLabel={true} aria-label={label} variant={variant} icon={<Icon className="text-xl" icon={currentItem.icon} />} hasDetail={hasDetail} />
               </GridItem>
-              <SubCategoryList ref={categoryRefs.current[index]} list={item?.children || []} />
+              <SubCategoryList ref={categoryRefs.current[index]} defaultValue={value} list={currentItemList(item)} onChange={item => handleSubItemClick(item, index)} />
             </React.Fragment>
           )
         })

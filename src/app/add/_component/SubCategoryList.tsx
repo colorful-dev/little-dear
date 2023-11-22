@@ -6,15 +6,17 @@ import IconItem from '~/app/_component/IconItem'
 
 interface SubCategoryListProps {
   list: IconInfo[]
-  onChange?: () => void
+  defaultValue: IconInfo | null
+  onChange?: (item: IconInfo) => void
 }
 
 export interface SubCategoryListRefProps {
   open: () => void
+  close: () => void
 }
 
 const SubCategoryList = forwardRef<SubCategoryListRefProps, SubCategoryListProps>((props, ref) => {
-  const { list } = props
+  const { list, defaultValue, onChange } = props
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   useImperativeHandle(ref, () => {
@@ -22,8 +24,15 @@ const SubCategoryList = forwardRef<SubCategoryListRefProps, SubCategoryListProps
       open: () => {
         onOpen && onOpen()
       },
+      close: () => {
+        onClose && onClose()
+      },
     }
-  }, [onOpen])
+  }, [onClose, onOpen])
+
+  const onRowClick = (item: IconInfo) => {
+    onChange && onChange(item)
+  }
 
   return (
     <Drawer
@@ -37,9 +46,12 @@ const SubCategoryList = forwardRef<SubCategoryListRefProps, SubCategoryListProps
           <Stack divider={<StackDivider />}>
             {
               list.map((item, index) => (
-                <Flex key={index} alignItems="center" gap={4} padding={2}>
-                  <IconItem aria-label={item.label} variant="normal" icon={<Icon className="text-xl" icon={item.icon} />} />
-                  <Text>{ item.label }</Text>
+                <Flex key={index} alignItems="center" justifyContent="space-between" padding={2} onClick={() => onRowClick(item)}>
+                  <Flex alignItems="center" gap={3}>
+                    <IconItem aria-label={item.label} variant="normal" icon={<Icon className="text-xl" icon={item.icon} />} />
+                    <Text>{item.label}</Text>
+                  </Flex>
+                  { defaultValue?.categoryId === item.categoryId ? <Icon className="text-primary-500" icon="ion:checkmark-sharp" /> : null }
                 </Flex>
               ))
             }
