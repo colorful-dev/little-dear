@@ -15,16 +15,17 @@ export const categoryRoute = createTRPCRouter({
   }),
   createCategory: authProcedure.input(createCategorySchema).mutation(async ({ ctx, input }) => {
     input.name = input.name.trim()
-    input.userId = ctx.userId
-    return ctx.db.insert(categories).values(input).returning()
+    return ctx.db.insert(categories).values({ ...input, userId: ctx.userId! }).returning()
   }),
   createCategories: authProcedure.input(createCategorySchema.array()).mutation(async ({ ctx, input }) => {
-    input = input.map((item) => {
-      item.name = item.name.trim()
-      item.userId = ctx.userId
-      return item
+    const normalizeInput = input.map((item) => {
+      return {
+        ...item,
+        name: item.name.trim(),
+        userId: ctx.userId!,
+      }
     })
-    return ctx.db.insert(categories).values(input).returning()
+    return ctx.db.insert(categories).values(normalizeInput).returning()
   }),
   updateCategoryBudget: authProcedure.input(updateBudgetSchema).mutation(async ({ ctx, input }) => {
     input.updateAt = new Date()

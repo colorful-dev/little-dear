@@ -15,7 +15,9 @@ export const categories = pgTable('category', {
 export type Category = typeof categories.$inferSelect
 
 export type CategoryCreate = typeof categories.$inferInsert
-export const createCategorySchema = createInsertSchema(categories)
+export const createCategorySchema = createInsertSchema(categories).omit({
+  userId: true,
+})
 
 // ---- budget related ----
 export type CategoryBudget = Pick<Category, 'id' | 'name' | 'budget'>
