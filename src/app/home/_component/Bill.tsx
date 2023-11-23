@@ -22,7 +22,7 @@ export function Bill({ children }: PropsWithChildren) {
       <Stack spacing={2}>{children}</Stack>
     </Stack>
   )
-}
+};
 
 export function DateItem({
   children,
@@ -56,7 +56,7 @@ export function DateItem({
       {children}
     </Stack>
   )
-}
+};
 
 export function BillItem({
   icon,
