@@ -7,7 +7,9 @@ import { createTRPCContext } from '~/server/api/trpc'
 
 function handler(req: NextRequest) {
   const userId = cookies().get('userId')
+  const ledgerId = cookies().get('ledgerId')
   console.log('userId--->', userId)
+  console.log('ledgerId--->', ledgerId)
   return fetchRequestHandler({
     endpoint: '/api/trpc',
     req,
@@ -22,6 +24,7 @@ function handler(req: NextRequest) {
           return cookies().get(key)?.value
         },
         userId: userId?.value,
+        ledgerId: Number(ledgerId?.value),
       }),
     onError:
       env.NODE_ENV === 'development'

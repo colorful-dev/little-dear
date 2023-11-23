@@ -10,7 +10,7 @@ export async function useDBSeeding() {
   useEffect(() => {
     const categories = query.data
     if (categories && !categories.length) {
-      mutation.mutate(names.map(name => ({ name })))
+      mutation.mutate(names.map(name => ({ name, icon: '' })))
       console.log('[useDBSeeding] seeded categories')
     }
   }, [query.data])

@@ -1,8 +1,6 @@
 import { pgTable, text, uuid, varchar } from 'drizzle-orm/pg-core'
 import { z } from 'zod'
 import { createSelectSchema } from 'drizzle-zod'
-import { relations } from 'drizzle-orm'
-import { records } from '.'
 
 export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -10,10 +8,6 @@ export const users = pgTable('users', {
   phone: varchar('phone', { length: 256 }).notNull().unique(),
   password: text('password').notNull(),
 })
-
-export const usersRelations = relations(users, ({ many }) => ({
-  records: many(records),
-}))
 
 export type User = typeof users.$inferSelect
 

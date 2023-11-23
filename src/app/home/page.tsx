@@ -419,8 +419,7 @@ export default function Home() {
                   value={i.value}
                   account={i.account}
                   type={i.type}
-                >
-                </BillItem>
+                />
               ))
               // <BillItem icon="icon-park-outline:income" category="工资" value="3,000.00" account="支付宝" type={BillType.INCOME}></BillItem>
             }

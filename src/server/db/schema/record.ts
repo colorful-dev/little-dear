@@ -1,21 +1,12 @@
 import { decimal, pgTable, serial, text, uuid } from 'drizzle-orm/pg-core'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
-import { relations } from 'drizzle-orm'
-import { users } from '.'
 
 export const records = pgTable('records', {
   id: serial('id').primaryKey(),
   remark: text('remark'),
   monery: decimal('monery').notNull(),
-  userId: uuid('user_id').references(() => users.id),
+  userId: uuid('user_id').notNull(),
 })
-
-export const recordsRelations = relations(records, ({ one }) => ({
-  user: one(users, {
-    fields: [records.userId],
-    references: [users.id],
-  }),
-}))
 
 export type Record = typeof records.$inferSelect
 

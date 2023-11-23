@@ -12,6 +12,7 @@ interface CreateContextOptions {
   setCookie: (key: string, value: string) => void
   getCookie: (key: string) => string | undefined
   userId: string | undefined
+  ledgerId: number | undefined
 }
 
 export function createInnerTRPCContext(opts: CreateContextOptions) {
@@ -21,6 +22,7 @@ export function createInnerTRPCContext(opts: CreateContextOptions) {
     setCookie: opts.setCookie,
     getCookie: opts.getCookie,
     userId: opts.userId,
+    ledgerId: opts.ledgerId,
   }
 }
 
@@ -30,6 +32,7 @@ export function createTRPCContext(opts: { req: NextRequest } & Omit<CreateContex
     setCookie: opts.setCookie,
     getCookie: opts.getCookie,
     userId: opts.userId,
+    ledgerId: opts.ledgerId,
   })
 }
 
