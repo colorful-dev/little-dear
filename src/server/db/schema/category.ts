@@ -1,14 +1,15 @@
-import { type PgColumn, pgTable, serial, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import { type PgColumn, integer, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { createInsertSchema } from 'drizzle-zod'
-import { users } from './user'
 
 export const categories = pgTable('category', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: text('name').notNull(),
-  budget: serial('budget'),
-  userId: uuid('user_id').references(() => users.id),
+  budget: integer('budget').default(0),
+  userId: uuid('user_id').notNull(),
   createAt: timestamp('create_at').notNull().defaultNow(),
   updateAt: timestamp('update_at').notNull().defaultNow(),
+  icon: text('icon').notNull(),
+  parentId: uuid('parent_id'),
 })
 
 export type Category = typeof categories.$inferSelect
