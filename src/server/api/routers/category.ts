@@ -1,28 +1,29 @@
-import { desc, eq } from 'drizzle-orm'
+import { arrayContains, desc, eq } from 'drizzle-orm'
 import { authProcedure, createTRPCRouter } from '../trpc'
 import { categories, createCategorySchema, listCategoriesBudgetTransform, updateBudgetSchema } from '~/server/db/schema'
 
 export const categoryRoute = createTRPCRouter({
   listCategories: authProcedure.query(async ({ ctx }) => {
-    return ctx.db.select()
+    const res = await ctx.db.select()
       .from(categories).orderBy(desc(categories.updateAt))
-      .where(eq(categories.userId, ctx.userId!))
+      .where(arrayContains(categories.ledgerIds, [ctx.ledgerId!]))
+    return res
   }),
   listCategoriesBudget: authProcedure.query(async ({ ctx }) => {
     return ctx.db.select(listCategoriesBudgetTransform(categories))
       .from(categories).orderBy(desc(categories.updateAt))
-      .where(eq(categories.userId, ctx.userId!))
+      .where(arrayContains(categories.ledgerIds, [ctx.ledgerId!]))
   }),
   createCategory: authProcedure.input(createCategorySchema).mutation(async ({ ctx, input }) => {
     input.name = input.name.trim()
-    return ctx.db.insert(categories).values({ ...input, userId: ctx.userId! }).returning()
+    return ctx.db.insert(categories).values({ ...input, ledgerIds: [ctx.ledgerId!] }).returning()
   }),
   createCategories: authProcedure.input(createCategorySchema.array()).mutation(async ({ ctx, input }) => {
     const normalizeInput = input.map((item) => {
       return {
         ...item,
         name: item.name.trim(),
-        userId: ctx.userId!,
+        ledgerIds: [ctx.ledgerId!],
       }
     })
     return ctx.db.insert(categories).values(normalizeInput).returning()

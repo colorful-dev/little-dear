@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm'
 import argon2 from 'argon2'
 import { createTRPCRouter, publicProcedure } from '../trpc'
-import { insertUserSchema, loginSchema, users } from '~/server/db/schema'
+import { insertUserSchema, ledgers, loginSchema, users } from '~/server/db/schema'
 
 export const authRoute = createTRPCRouter({
   register: publicProcedure
@@ -21,7 +21,20 @@ export const authRoute = createTRPCRouter({
           password: await hashPassword(input.password),
         })
         .returning({ userId: users.id })
+
+      // default ledger
+      const ledgerRes = await ctx.db
+        .insert(ledgers)
+        .values({
+          name: '默认账本',
+          userId: res[0]!.userId,
+        }).returning({
+          ledgerId: ledgers.id,
+        })
+
       ctx.setCookie('userId', res[0]!.userId)
+      ctx.setCookie('ledgerId', ledgerRes[0]!.ledgerId.toString())
+
       return res
     }),
   login: publicProcedure.input(loginSchema).mutation(async ({ ctx, input }) => {
@@ -34,6 +47,8 @@ export const authRoute = createTRPCRouter({
       user.length > 0
       && (await verifyPassword(user[0]!.password, input.password))
     ) {
+      const ledger = await ctx.db.select().from(ledgers).where(eq(ledgers.userId, user[0]!.id))
+      ctx.setCookie('ledgerId', ledger[0]!.id.toString())
       ctx.setCookie('userId', user[0]!.id)
       return {
         userId: user[0]!.id,
