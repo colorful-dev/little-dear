@@ -18,7 +18,7 @@ export type Category = typeof categories.$inferSelect
 export type CategoryCreate = typeof categories.$inferInsert
 
 export const createCategorySchema = createInsertSchema(categories).omit({
-  // ledgerIds: true,
+  ledgerIds: true,
 })
 
 // ---- budget related ----
