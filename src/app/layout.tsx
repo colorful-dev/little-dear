@@ -27,7 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`font-sans ${inter.variable} safe-area-view`}>
         <Flex w="100vw" h="100vh" flexDirection="column">
-          <Box flex={1} overflow="scroll">
+          <Box flex={1} overflow="hidden">
             <TRPCReactProvider cookies={cookies().toString()}>
               {children}
             </TRPCReactProvider>
