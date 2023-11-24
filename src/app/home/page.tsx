@@ -3,25 +3,14 @@
 import { Box, Button, Center, Flex } from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
 import { HomeLayout } from '../_component/Layout'
-import { Bill, BillItem, BillType, DateItem } from './_component/Bill'
+import { Bill, BillItem, DateItem } from './_component/Bill'
 import { useDBSeeding } from './_hooks/useSeed'
-
-type DailyBill = {
-  date: string
-  income: string
-  expense: string
-  list: Array<{
-    category: string
-    value: string
-    account: string
-    icon: string
-    type: BillType
-  }>
-}
+import { api } from '~/trpc/react'
+import { BillingType } from '~/server/db/schema'
 
 const category2IconMap = {
   工资: 'icon-park-outline:income',
-  饮食: 'icon-park-outline:noodles',
+  餐饮: 'icon-park-outline:noodles',
   零食: 'icon-park-outline:french-fries',
   运动: 'icon-park-outline:sport',
   书籍: 'icon-park-outline:book',
@@ -29,353 +18,20 @@ const category2IconMap = {
 }
 
 export default function Home() {
+  const createBilling = api.billing.createBilling.useMutation()
+  const listBillings = api.billing.listBillings.useQuery()
+
   useDBSeeding()
 
-  const mockData: DailyBill[] = [
-    {
-      date: '2023-11-01',
-      income: '5000',
-      expense: '2000',
-      list: [
-        {
-          category: '工资',
-          value: '5000',
-          account: '工资',
-          icon: 'salary',
-          type: BillType.INCOME,
-        },
-        {
-          category: '饮食',
-          value: '1000',
-          account: '饮食',
-          icon: 'food',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '零食',
-          value: '500',
-          account: '零食',
-          icon: 'snack',
-          type: BillType.EXPENSE,
-        },
-      ],
-    },
-    {
-      date: '2023-11-02',
-      income: '6000',
-      expense: '2500',
-      list: [
-        {
-          category: '工资',
-          value: '6000',
-          account: '工资',
-          icon: 'salary',
-          type: BillType.INCOME,
-        },
-        {
-          category: '饮食',
-          value: '1500',
-          account: '饮食',
-          icon: 'food',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '运动',
-          value: '500',
-          account: '运动',
-          icon: 'sport',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '书籍',
-          value: '500',
-          account: '书籍',
-          icon: 'book',
-          type: BillType.EXPENSE,
-        },
-      ],
-    },
-    {
-      date: '2023-11-03',
-      income: '5000',
-      expense: '2000',
-      list: [
-        {
-          category: '工资',
-          value: '5000',
-          account: '工资',
-          icon: 'salary',
-          type: BillType.INCOME,
-        },
-        {
-          category: '饮食',
-          value: '1000',
-          account: '饮食',
-          icon: 'food',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '礼物',
-          value: '500',
-          account: '礼物',
-          icon: 'gift',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '运动',
-          value: '500',
-          account: '运动',
-          icon: 'sport',
-          type: BillType.EXPENSE,
-        },
-      ],
-    },
-    {
-      date: '2023-11-04',
-      income: '6000',
-      expense: '2500',
-      list: [
-        {
-          category: '工资',
-          value: '6000',
-          account: '工资',
-          icon: 'salary',
-          type: BillType.INCOME,
-        },
-        {
-          category: '饮食',
-          value: '1500',
-          account: '饮食',
-          icon: 'food',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '零食',
-          value: '500',
-          account: '零食',
-          icon: 'snack',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '书籍',
-          value: '500',
-          account: '书籍',
-          icon: 'book',
-          type: BillType.EXPENSE,
-        },
-      ],
-    },
-    {
-      date: '2023-11-05',
-      income: '5000',
-      expense: '2000',
-      list: [
-        {
-          category: '工资',
-          value: '5000',
-          account: '工资',
-          icon: 'salary',
-          type: BillType.INCOME,
-        },
-        {
-          category: '饮食',
-          value: '1000',
-          account: '饮食',
-          icon: 'food',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '零食',
-          value: '500',
-          account: '零食',
-          icon: 'snack',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '运动',
-          value: '500',
-          account: '运动',
-          icon: 'sport',
-          type: BillType.EXPENSE,
-        },
-      ],
-    },
-    {
-      date: '2023-11-06',
-      income: '6000',
-      expense: '2500',
-      list: [
-        {
-          category: '工资',
-          value: '6000',
-          account: '工资',
-          icon: 'salary',
-          type: BillType.INCOME,
-        },
-        {
-          category: '饮食',
-          value: '1500',
-          account: '饮食',
-          icon: 'food',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '礼物',
-          value: '500',
-          account: '礼物',
-          icon: 'gift',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '书籍',
-          value: '500',
-          account: '书籍',
-          icon: 'book',
-          type: BillType.EXPENSE,
-        },
-      ],
-    },
-    {
-      date: '2023-11-07',
-      income: '5000',
-      expense: '2000',
-      list: [
-        {
-          category: '工资',
-          value: '5000',
-          account: '工资',
-          icon: 'salary',
-          type: BillType.INCOME,
-        },
-        {
-          category: '饮食',
-          value: '1000',
-          account: '饮食',
-          icon: 'food',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '零食',
-          value: '500',
-          account: '零食',
-          icon: 'snack',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '运动',
-          value: '500',
-          account: '运动',
-          icon: 'sport',
-          type: BillType.EXPENSE,
-        },
-      ],
-    },
-    {
-      date: '2023-11-08',
-      income: '6000',
-      expense: '2500',
-      list: [
-        {
-          category: '工资',
-          value: '6000',
-          account: '工资',
-          icon: 'salary',
-          type: BillType.INCOME,
-        },
-        {
-          category: '饮食',
-          value: '1500',
-          account: '饮食',
-          icon: 'food',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '礼物',
-          value: '500',
-          account: '礼物',
-          icon: 'gift',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '书籍',
-          value: '500',
-          account: '书籍',
-          icon: 'book',
-          type: BillType.EXPENSE,
-        },
-      ],
-    },
-    {
-      date: '2023-11-09',
-      income: '5000',
-      expense: '2000',
-      list: [
-        {
-          category: '工资',
-          value: '5000',
-          account: '工资',
-          icon: 'salary',
-          type: BillType.INCOME,
-        },
-        {
-          category: '饮食',
-          value: '1000',
-          account: '饮食',
-          icon: 'food',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '零食',
-          value: '500',
-          account: '零食',
-          icon: 'snack',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '运动',
-          value: '500',
-          account: '运动',
-          icon: 'sport',
-          type: BillType.EXPENSE,
-        },
-      ],
-    },
-    {
-      date: '2023-11-10',
-      income: '6000',
-      expense: '2500',
-      list: [
-        {
-          category: '工资',
-          value: '6000',
-          account: '工资',
-          icon: 'salary',
-          type: BillType.INCOME,
-        },
-        {
-          category: '饮食',
-          value: '1500',
-          account: '饮食',
-          icon: 'food',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '礼物',
-          value: '500',
-          account: '礼物',
-          icon: 'gift',
-          type: BillType.EXPENSE,
-        },
-        {
-          category: '书籍',
-          value: '500',
-          account: '书籍',
-          icon: 'book',
-          type: BillType.EXPENSE,
-        },
-      ],
-    },
-  ]
+  const handleAddBilling = () => {
+    createBilling.mutate({
+      value: Number((Math.random() * 1000).toFixed(2)),
+      categoryId: '88da6c00-92c8-4fa9-ada1-c1dbf95780c3',
+      categoryName: '餐饮',
+      transactionAt: new Date(),
+      type: BillingType.EXPENSE,
+    })
+  }
 
   return (
     <HomeLayout
@@ -399,11 +55,11 @@ export default function Home() {
         </Flex>
       )}
     >
-      <Box h={40} flexShrink={0} bg="primary.500" rounded={14}></Box>
+      <Box h={40} flexShrink={0} bg="primary.500" rounded={14} onClick={handleAddBilling}></Box>
       <Bill>
-        {mockData.map((b, index) => (
+        {listBillings.data?.map(b => (
           <DateItem
-            key={`${b.date}${index}`}
+            key={b.date}
             date={b.date}
             income={b.income}
             expense={b.expense}
@@ -413,11 +69,11 @@ export default function Home() {
                 <BillItem
                   key={iIndex}
                   icon={
-                    category2IconMap[i.category as keyof typeof category2IconMap]
+                    category2IconMap[i.categoryName as keyof typeof category2IconMap]
                   }
-                  category={i.category}
+                  category={i.categoryName}
                   value={i.value}
-                  account={i.account}
+                  account={i.accountName || ''}
                   type={i.type}
                 />
               ))
