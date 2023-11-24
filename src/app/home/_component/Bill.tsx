@@ -38,7 +38,7 @@ export function DateItem({
     <Stack spacing={2}>
       <Center
         justifyContent="space-between"
-        color="gray.300"
+        color="gray.600"
         fontSize="x-small"
       >
         <Text>{date}</Text>
@@ -86,7 +86,7 @@ export function BillItem({
         <Text fontSize="small" fontWeight="bold">
           {category}
         </Text>
-        <Text color="gray.300" fontSize="x-small">
+        <Text color="gray.600" fontSize="x-small">
           {account}
         </Text>
       </Stack>
