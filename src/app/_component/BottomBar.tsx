@@ -43,43 +43,42 @@ export function BottomBar() {
     <ChakraProvider theme={theme}>
       <Flex
         w="100vw"
-        h="80px"
+        h="65px"
         color="gray"
         bg="white"
         px="36px"
         justify="space-between"
-        boxShadow="0px 0px 1px 0px gray"
       >
         <Center
-          fontSize="3xl"
+          fontSize="xl"
           onClick={() => goToPath('home')}
           color={isActive('home') ? 'primary.500' : undefined}
         >
           <Icon icon="ant-design:home-outlined" />
         </Center>
         <Center
-          fontSize="3xl"
+          fontSize="xl"
           onClick={() => goToPath('statistics')}
           color={isActive('statistics') ? 'primary.500' : undefined}
         >
           <Icon icon="tabler:chart-line" />
         </Center>
         <Center
-          fontSize="3xl"
+          fontSize="xl"
           onClick={() => goToPath('add')}
           color={isActive('add') ? 'primary.500' : undefined}
         >
           <Icon icon="fluent:add-12-filled" />
         </Center>
         <Center
-          fontSize="3xl"
+          fontSize="xl"
           onClick={() => goToPath('budget')}
           color={isActive('budget') ? 'primary.500' : undefined}
         >
           <Icon icon="iconamoon:calculator-light" />
         </Center>
         <Center
-          fontSize="3xl"
+          fontSize="xl"
           onClick={() => goToPath('setting')}
           color={isActive('setting') ? 'primary.500' : undefined}
         >
