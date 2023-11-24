@@ -5,7 +5,6 @@ export const categories = pgTable('category', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: text('name').notNull(),
   budget: integer('budget').default(0),
-  // ledgerIds: json('ledger_ids').$type<number[]>().default([]),
   ledgerIds: integer('ledger_ids').array(),
   createAt: timestamp('create_at').notNull().defaultNow(),
   updateAt: timestamp('update_at').notNull().defaultNow(),
