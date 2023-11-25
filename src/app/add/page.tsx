@@ -1,14 +1,15 @@
-"use client";
+'use client'
 
 import {
-  Tabs, 
-  TabList, 
-  TabPanels, 
-  Tab, 
-  TabPanel,
+  Tab,
   TabIndicator,
-  useColorModeValue } from '@chakra-ui/react'
-import { useState } from "react";
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  useColorModeValue,
+} from '@chakra-ui/react'
+import { useState } from 'react'
 import ExpendPanel from './_component/ExpendPanel'
 import IncomePanel from './_component/IncomePanel'
 
@@ -17,19 +18,20 @@ export default function Page() {
     ['#D66F67', '#6DD4A4', '#8D8BF5'],
     [],
   )
-  const [tabIndex, setTabIndex] = useState(0);
-  const bg = colors[tabIndex];
+  const [tabIndex, setTabIndex] = useState(0)
+  const bg = colors[tabIndex]
   const tabs = [
     { label: '支出', color: '#D66F67' },
     { label: '收入', color: '#6DD4A4' },
     { label: '转账', color: '#8D8BF5' },
-  ];
+  ]
   return (
     <>
       <Tabs
-        onChange={(index) => setTabIndex(index)}
-        align='center' 
-        variant="unstyled">
+        onChange={index => setTabIndex(index)}
+        align="center"
+        variant="unstyled"
+      >
         <TabList>
           {tabs.map((tab, index) => (
             <Tab key={index} _selected={{ color: tab.color }}>
@@ -45,10 +47,10 @@ export default function Page() {
         />
         <TabPanels>
           <TabPanel>
-            <ExpendPanel/>
+            <ExpendPanel />
           </TabPanel>
           <TabPanel>
-            <IncomePanel/>
+            <IncomePanel />
           </TabPanel>
           <TabPanel>
             <p>three!</p>
@@ -56,5 +58,5 @@ export default function Page() {
         </TabPanels>
       </Tabs>
     </>
-  );
+  )
 }

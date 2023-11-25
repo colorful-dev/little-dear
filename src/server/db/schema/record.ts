@@ -4,7 +4,7 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 export const records = pgTable('records', {
   id: serial('id').primaryKey(),
   remark: text('remark'),
-  monery: decimal('monery').notNull(),
+  money: decimal('money').notNull(),
   userId: uuid('user_id').notNull(),
 })
 

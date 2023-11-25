@@ -1,21 +1,22 @@
-"use client";
+'use client'
 
 import {
-  Flex,
+  Box,
   Center,
+  Flex,
   Input,
-  Box
 } from '@chakra-ui/react'
-import { Icon } from "@iconify/react";
+import { Icon } from '@iconify/react'
+
 export default function Page() {
   return (
-    <Flex h={20} px={4} bg='gray.500' borderRadius='lg'  alignItems={'center'} justifyContent={'space-between'}>
-      <Box 
-        display="flex" 
+    <Flex h={20} px={4} bg="gray.500" borderRadius="lg" alignItems="center" justifyContent="space-between">
+      <Box
+        display="flex"
         flexDirection="row"
-        alignItems={'center'}
+        alignItems="center"
       >
-        <Center w={16} fontSize={64} justifyContent={'space-around'} bg={'gray.600'} rounded={4}>
+        <Center w={16} fontSize={64} justifyContent="space-around" bg="gray.600" rounded={4}>
           <Icon icon="logos:google-pay" />
         </Center>
         <Flex
@@ -23,14 +24,18 @@ export default function Page() {
           h={16}
           mx={4}
           fontSize={14}
-          flexDirection={'column'}
-          justifyContent={'space-between'}
+          flexDirection="column"
+          justifyContent="space-between"
         >
-          <Flex alignItems={'center'}>支付宝 <Icon icon="carbon:chevron-down" /></Flex>
+          <Flex alignItems="center">
+            支付宝
+            {' '}
+            <Icon icon="carbon:chevron-down" />
+          </Flex>
           <Flex>主账户</Flex>
         </Flex>
       </Box>
-      <Input h={16} variant='unstyled' placeholder='Basic usage'/>
+      <Input h={16} variant="unstyled" placeholder="Basic usage" />
     </Flex>
-  );
+  )
 }

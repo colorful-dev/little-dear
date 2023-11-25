@@ -2,15 +2,12 @@ import type { IconifyIcon } from '@iconify/react'
 import type { PropsWithChildren } from 'react'
 import { Center, Flex, HStack, Heading, Stack, Text } from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
+import { BillingType } from '~/server/db/schema'
 
-export enum BillType {
-  INCOME,
-  EXPENSE,
-}
-
-const billTypeColorMap: Record<BillType, string> = {
-  [BillType.EXPENSE]: 'red',
-  [BillType.INCOME]: 'green',
+const billTypeColorMap: Record<BillingType, string> = {
+  [BillingType.EXPENSE]: 'red',
+  [BillingType.INCOME]: 'green',
+  [BillingType.TRANSFER]: 'purple',
 }
 
 export function Bill({ children }: PropsWithChildren) {
@@ -31,14 +28,14 @@ export function DateItem({
   date,
 }: PropsWithChildren<{
   date: string
-  income: string
-  expense: string
+  income: number
+  expense: number
 }>) {
   return (
     <Stack spacing={2}>
       <Center
         justifyContent="space-between"
-        color="gray.300"
+        color="gray.600"
         fontSize="x-small"
       >
         <Text>{date}</Text>
@@ -66,10 +63,10 @@ export function BillItem({
   type,
 }: {
   category: string
-  value: string
+  value: number
   account: string
   icon: string | IconifyIcon
-  type: BillType
+  type: BillingType
 }) {
   return (
     <HStack alignItems="center" spacing={4}>
@@ -86,7 +83,7 @@ export function BillItem({
         <Text fontSize="small" fontWeight="bold">
           {category}
         </Text>
-        <Text color="gray.300" fontSize="x-small">
+        <Text color="gray.600" fontSize="x-small">
           {account}
         </Text>
       </Stack>
