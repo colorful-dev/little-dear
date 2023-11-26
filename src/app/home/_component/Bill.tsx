@@ -2,7 +2,10 @@ import type { IconifyIcon } from '@iconify/react'
 import type { PropsWithChildren } from 'react'
 import { Center, Flex, HStack, Heading, Stack, Text } from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
+import dayjs from 'dayjs'
 import { BillingType } from '~/server/db/schema'
+import { weekdays } from '~/app/_util'
+import { createPolicyMode } from '~/app/_util/policyMode'
 
 const billTypeColorMap: Record<BillingType, string> = {
   [BillingType.EXPENSE]: 'red',
@@ -31,6 +34,15 @@ export function DateItem({
   income: number
   expense: number
 }>) {
+  const dayList = (Array(7).fill(0)).reduce((acc, curr, index) => {
+    const thisDay = dayjs().add(-index, 'day')
+    const dayStr = thisDay.format('YYYY-MM-DD')
+    const weekday = thisDay.day()
+    acc[dayStr] = `${index ? weekdays[weekday] : '今天'} ${dayStr.slice(5)}`
+    return acc
+  }, {} as Record<string, string>)
+  const dateStrGetter = createPolicyMode({ ...dayList, default: (key: string) => key })
+
   return (
     <Stack spacing={2}>
       <Center
@@ -38,7 +50,7 @@ export function DateItem({
         color="gray.600"
         fontSize="x-small"
       >
-        <Text>{date}</Text>
+        <Text>{dateStrGetter(date)}</Text>
         <Flex>
           <Text marginRight={2}>
             收 ¥
