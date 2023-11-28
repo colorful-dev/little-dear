@@ -17,7 +17,7 @@ function getRealValue<T, Params = void>(value: ValueGetter<T, Params>, params?: 
 
 export function createPolicyMode<T extends Record<string, unknown>>(mapping: Partial<{ [X in keyof T]: ValueGetter<T[X]> } & { default: unknown }>) {
   return <Key extends keyof T, V = InferValueGetter<T[Key]>>(key: Exclude<Key, 'default'>): V => {
-    const value = mapping[key] ?? (typeof mapping.default === 'function' ? mapping.default(key) : mapping.default)
+    const value = mapping[key] ?? mapping.default
 
     if (value === undefined || value === null)
       return value as V
