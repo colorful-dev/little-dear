@@ -56,37 +56,47 @@ export type DailyBill = {
 }
 
 function getYMDStrbyDate(date: Date) {
-  return `${date.getFullYear()}-${date.getMonth()}${date.getDay()}`
+  const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
+  return `${year}-${month}-${day} 00:00:00`
+}
+
+const billingTypeStrategies = {
+  [BillingType.EXPENSE]: (dailyBill: DailyBill, value: number) => ({
+    ...dailyBill,
+    expense: dailyBill.expense + value,
+  }),
+  [BillingType.INCOME]: (dailyBill: DailyBill, value: number) => ({
+    ...dailyBill,
+    income: dailyBill.income + value,
+  }),
+  [BillingType.TRANSFER]: (dailyBill: DailyBill) => dailyBill,
 }
 
 export function normalizeBillingsByDate(billingsData: Billing[]) {
   let currDateStr = ''
   return billingsData.reduce((acc, billing) => {
     const transactionDateStr = getYMDStrbyDate(billing.transactionAt)
-    const values = {
-      income: 0,
-      expense: 0,
-    }
-
-    if (billing.type === BillingType.EXPENSE)
-      values.expense += billing.value
-
-    if (billing.type === BillingType.INCOME)
-      values.income += billing.value
-
+    const tailIndex = acc.length - 1
     if (currDateStr === transactionDateStr) {
-      acc[acc.length - 1]!.list.push(billing)
-      acc[acc.length - 1]!.income += values.income
-      acc[acc.length - 1]!.expense += values.expense
+      acc[tailIndex] = billingTypeStrategies[billing.type](acc[tailIndex]!, billing.value)
+      acc[tailIndex]!.list.push(billing)
     }
     else {
-      acc.push({
-        date: transactionDateStr,
-        ...values,
+      const newDateRow: DailyBill = {
+        date: transactionDateStr.slice(0, 10),
+        income: 0,
+        expense: 0,
         list: [billing],
+      }
+      acc.push({
+        ...billingTypeStrategies[billing.type](newDateRow, billing.value),
       })
       currDateStr = transactionDateStr
     }
     return acc
-  }, [] as Array<DailyBill>)
+  }, [] as Array<DailyBill>).map(row => ({
+    ...row,
+    income: Number(row.income.toFixed(2)),
+    expense: Number(row.expense.toFixed(2)),
+  }))
 }

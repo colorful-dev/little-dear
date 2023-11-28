@@ -11,3 +11,5 @@ export function withDefaultProps<P extends object>(
   comp.displayName = WrappedComponent.displayName
   return comp
 }
+
+export const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']

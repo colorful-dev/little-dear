@@ -29,7 +29,7 @@ export default function Home() {
       categoryId: '88da6c00-92c8-4fa9-ada1-c1dbf95780c3',
       categoryName: '餐饮',
       transactionAt: new Date(),
-      type: BillingType.EXPENSE,
+      type: Math.random() > 0.5 ? BillingType.EXPENSE : BillingType.INCOME,
     })
   }
 
