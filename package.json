@@ -32,7 +32,7 @@
     "@trpc/server": "^10.37.1",
     "argon2": "^0.31.2",
     "dayjs": "^1.11.10",
-    "drizzle-orm": "^0.28.5",
+    "drizzle-orm": "^0.29.0",
     "drizzle-zod": "^0.5.1",
     "formik": "^2.4.5",
     "next": "^14.0.0",
