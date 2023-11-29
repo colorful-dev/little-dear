@@ -1,6 +1,5 @@
 import { boolean, doublePrecision, integer, pgEnum, pgTable, serial, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { createInsertSchema } from 'drizzle-zod'
-import { z } from 'zod'
 
 export enum BillingType {
   INCOME = 'INCOME',
@@ -27,14 +26,6 @@ export const billings = pgTable('billing', {
 })
 
 export type Billing = typeof billings.$inferSelect
-
-export const listBillingsSchema = z.object({
-  size: z.number().optional().default(0),
-  page: z.number().optional().default(20),
-}).optional().default({
-  page: 0,
-  size: 20,
-})
 
 export const billingSchema = createInsertSchema(billings)
 
