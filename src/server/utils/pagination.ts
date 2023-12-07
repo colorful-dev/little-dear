@@ -24,9 +24,9 @@ export async function withPagination<T extends PgSelect>(
   query: T,
   page: number,
   size: number,
-  count: number,
 ) {
   const res = await query.limit(size).offset((page - 1) * size)
+  const count = res[0]?.count || 0
   const currentTailIndex = page * size
   const meta: PageMeta = {
     currentPage: page,

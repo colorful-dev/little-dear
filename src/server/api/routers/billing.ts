@@ -10,21 +10,18 @@ export const billingRoute = createTRPCRouter({
       eq(billings.ledgerId, ctx.ledgerId!),
     )
 
-    const counts = await ctx.db.select({
-      count: sql<number>`count(*)`.mapWith(Number),
+    const query = ctx.db.select({
+      data: billings,
+      count: sql<number>`count(*) over()`.mapWith(Number),
     })
-      .from(billings)
-      .where(whereCondition)
-
-    const query = ctx.db.select()
       .from(billings)
       .orderBy(desc(billings.transactionAt))
       .where(whereCondition)
 
     const { page, size } = input
     const dynamicQuery = query.$dynamic()
-    const res = await withPagination(dynamicQuery, page, size, counts[0] ? counts[0].count : 0)
-    const normalizeRes = normalizeBillingsByDate(res.data)
+    const res = await withPagination(dynamicQuery, page, size)
+    const normalizeRes = normalizeBillingsByDate(res.data.map(i => i.data))
     return {
       ...res,
       data: normalizeRes,
