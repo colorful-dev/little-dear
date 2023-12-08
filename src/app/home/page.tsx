@@ -1,12 +1,12 @@
 'use client'
 
-import { Box, Button, Center, Flex } from '@chakra-ui/react'
+import { Button, Center, Flex } from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
 import { HomeLayout } from '../_component/Layout'
 import { Bill, BillItem, DateItem } from './_component/Bill'
 import { useDBSeeding } from './_hooks/useSeed'
+import { PropertyCard } from './_component/PropertyCard'
 import { api } from '~/trpc/react'
-import { BillingType } from '~/server/db/schema'
 
 const category2IconMap = {
   工资: 'icon-park-outline:income',
@@ -18,22 +18,22 @@ const category2IconMap = {
 }
 
 export default function Home() {
-  const createBilling = api.billing.createBilling.useMutation()
+  // const createBilling = api.billing.createBilling.useMutation()
   const listBillings = api.billing.listBillings.useQuery({
     page: 1,
   })
 
   useDBSeeding()
 
-  const handleAddBilling = () => {
-    createBilling.mutate({
-      value: Number((Math.random() * 1000).toFixed(2)),
-      categoryId: '88da6c00-92c8-4fa9-ada1-c1dbf95780c3',
-      categoryName: '餐饮',
-      transactionAt: new Date(),
-      type: Math.random() > 0.5 ? BillingType.EXPENSE : BillingType.INCOME,
-    })
-  }
+  // const handleAddBilling = () => {
+  //   createBilling.mutate({
+  //     value: Number((Math.random() * 1000).toFixed(2)),
+  //     categoryId: '88da6c00-92c8-4fa9-ada1-c1dbf95780c3',
+  //     categoryName: '餐饮',
+  //     transactionAt: new Date(),
+  //     type: Math.random() > 0.5 ? BillingType.EXPENSE : BillingType.INCOME,
+  //   })
+  // }
 
   return (
     <HomeLayout
@@ -57,7 +57,7 @@ export default function Home() {
         </Flex>
       )}
     >
-      <Box h={40} flexShrink={0} bg="primary.500" rounded={14} onClick={handleAddBilling}></Box>
+      <PropertyCard></PropertyCard>
       <Bill>
         {listBillings.data?.data.map(b => (
           <DateItem
@@ -79,7 +79,6 @@ export default function Home() {
                   type={i.type}
                 />
               ))
-              // <BillItem icon="icon-park-outline:income" category="工资" value="3,000.00" account="支付宝" type={BillType.INCOME}></BillItem>
             }
           </DateItem>
         ))}
