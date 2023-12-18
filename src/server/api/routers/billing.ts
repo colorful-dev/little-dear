@@ -1,6 +1,6 @@
 import { and, desc, eq, sql } from 'drizzle-orm'
 import { authProcedure, createTRPCRouter } from '../trpc'
-import { billings, createBillingSchema, normalizeBillingsByDate } from '~/server/db/schema'
+import { billings, createBillingSchema, normalizeBillingsByDate, queryBillingSchema, updateBillingSchema } from '~/server/db/schema'
 import { basicPaginationSchema, withPagination } from '~/server/utils'
 
 export const billingRoute = createTRPCRouter({
@@ -27,11 +27,22 @@ export const billingRoute = createTRPCRouter({
       data: normalizeRes,
     }
   }),
-  createBilling: authProcedure.input(createBillingSchema).mutation(async ({ ctx, input }) => {
+  createBilling: authProcedure.input(createBillingSchema).mutation(({ ctx, input }) => {
     return ctx.db.insert(billings).values({
       ...input,
       userId: ctx.userId!,
       ledgerId: ctx.ledgerId!,
     }).returning()
+  }),
+  billing: authProcedure.input(queryBillingSchema).query(({ ctx, input }) => {
+    return ctx.db.select().from(billings).where(eq(billings.id, input.id))
+  }),
+  updateBilling: authProcedure.input(updateBillingSchema).query(({ ctx, input }) => {
+    const { id, ...newData } = input
+    return ctx.db.update(billings)
+      .set({ ...newData, updateAt: new Date() }).where(eq(billings.id, id))
+  }),
+  deleteBilling: authProcedure.input(queryBillingSchema).query(({ ctx, input }) => {
+    return ctx.db.update(billings).set({ isDelete: true, updateAt: new Date() }).where(eq(billings.id, input.id))
   }),
 })
