@@ -1,5 +1,6 @@
 import { boolean, doublePrecision, integer, pgEnum, pgTable, serial, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { createInsertSchema } from 'drizzle-zod'
+import { z } from 'zod'
 
 export enum BillingType {
   INCOME = 'INCOME',
@@ -10,7 +11,7 @@ export enum BillingType {
 export const billingTypeColumnEnum = pgEnum('type', [BillingType.INCOME, BillingType.EXPENSE, BillingType.TRANSFER])
 
 export const billings = pgTable('billing', {
-  id: serial('id').primaryKey(),
+  id: serial('id').primaryKey().notNull(),
   categoryId: uuid('category_id').notNull(),
   categoryName: text('category_name').notNull(),
   ledgerId: integer('ledger_id').notNull(),
@@ -38,6 +39,22 @@ export const createBillingSchema = billingSchema.pick({
   accountName: true,
   type: true,
 })
+
+export const queryBillingSchema = billingSchema.pick({
+  id: true,
+}).required()
+
+export const updateBillingSchema = billingSchema.omit({
+  createAt: true,
+  updateAt: true,
+  isDelete: true,
+  type: true,
+  userId: true,
+}).partial().merge(z.object({
+  id: z.number(),
+  ledgerId: z.number(),
+  value: z.number(),
+}))
 
 export type DailyBill = {
   date: string
