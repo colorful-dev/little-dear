@@ -13,7 +13,7 @@ export function PropertyCard() {
         </Text>
       </Flex>
       <Text flex={1} fontWeight="extrabold" fontSize={36}>
-        ¥ 0.00
+        { eyeClosed ? '******' : '¥ 0.00'}
       </Text>
       <Stack fontSize="xs" spacing={0} fontWeight="medium">
         <Text>本月收入 ¥0.00</Text>
